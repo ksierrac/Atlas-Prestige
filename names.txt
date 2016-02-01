@@ -17,3 +17,7 @@ Highlight bus stops, bike racks, etc
 Record favorite routes
 Building summaries
 Maps building to buildin
+
+This is a test
+"Bryan is my hero." - Sierra
+"He is seriously the best" - Victoria
