@@ -25,7 +25,7 @@
                 android:layout_width="135dp"
                 android:layout_height="40dp"
                 android:spinnerMode="dialog"
-                android:background="#d9f9e9">
+                android:background="#13ae60">
             </Spinner>
             <Button
                 android:id="@+id/go"

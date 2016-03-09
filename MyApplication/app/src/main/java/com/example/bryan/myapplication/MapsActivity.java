@@ -38,10 +38,8 @@ import java.util.Vector;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
-    private CheckBox bikeCheckbox;
-    private String[] arraySpinner;
-    ArrayList <LatLng> places= new ArrayList<LatLng>();
+    public GoogleMap mMap;
+
 
 
 
@@ -118,6 +116,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
             case R.id.busButton:
+
+                Buses bus = new Buses(this);
+                /**
                 final Button busButton = (Button) findViewById(R.id.busButton); // setup button function for directions
                 LayoutInflater layoutInflater1 //popup behavior
                         = (LayoutInflater) getBaseContext()
@@ -188,6 +189,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 });
 
                 popupWindow1.showAsDropDown(busButton, 50, -30);
+                 **/
                 break;
 
 
@@ -266,6 +268,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     }
+
+
+
+
     private void drawPrimaryLinePath( ArrayList<LatLng> listLocsToDraw )
     {
         if ( mMap == null )
