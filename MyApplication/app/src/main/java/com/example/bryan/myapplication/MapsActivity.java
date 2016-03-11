@@ -21,6 +21,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -97,12 +98,53 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         ViewGroup.LayoutParams.WRAP_CONTENT);
 
                 Button btnDismiss = (Button) popupView.findViewById(R.id.dismiss); //exit button
+
                 btnDismiss.setOnClickListener(new Button.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
                         // TODO Auto-generated method stub
                         popupWindow.dismiss();
+                        try {
+                            // examples of directions url request
+                            URL url = new URL("https://maps.google.com/maps/api/directions/json?origin=34.227524,-77.873301&destination=34.227524,-77.873201&mode=walking&sensor=false&key=AIzaSyAU5Hq8LlAFjyFwBjEh__17CXR4bbsId40");
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        //example of decoding the polyline overview string
+                        ArrayList <LatLng> encoded = decodePoly("id|oErohzMm@kAOpAAH");
+                        //drawing the resulting ArrayList
+                        drawPrimaryLinePath(encoded);
+
+                        //the directions only show the sidewalk paths.
+                        ArrayList<LatLng> latlng1 = new ArrayList();
+                        latlng1.add(new LatLng(34.227895,-77.872604));
+                        latlng1.add(encoded.get(0));
+                        drawPrimaryLinePath(latlng1);
+
+                        CameraPosition cameraPosition =
+                                new CameraPosition.Builder()
+                                        .target(new LatLng(34.227524, -77.873301))
+                                        .bearing(45)
+                                        .tilt(90)
+                                        .zoom(mMap.getCameraPosition().zoom)
+                                        .build();
+                        mMap.animateCamera(
+                                CameraUpdateFactory.newCameraPosition(cameraPosition),
+                                new GoogleMap.CancelableCallback() {
+
+                                    @Override
+                                    public void onFinish() {
+                                    }
+
+                                    @Override
+                                    public void onCancel() {
+                                    }
+                                }
+                        );
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(34.227524,-77.873301)));
+                        mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+
                     }
                 });
 
@@ -299,7 +341,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addPolyline(options);
 
     }
-
+    public static ArrayList decodePoly(String encoded) {
+        ArrayList poly = new ArrayList();
+        int index = 0, len = encoded.length();
+        int lat = 0, lng = 0;
+        while (index < len) {
+            int b, shift = 0, result = 0;
+            do {
+                b = encoded.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lat += dlat;
+            shift = 0;
+            result = 0;
+            do {
+                b = encoded.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lng += dlng;
+            LatLng p = new LatLng((((double) lat / 1E5)),
+                    (((double) lng / 1E5)));
+            poly.add(p);
+        }
+        return poly;
+    }
     }
 /**
  public void addListenerOnbikeCheckbox() {
