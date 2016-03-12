@@ -78,77 +78,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         switch (v.getId()) {
 
             case R.id.directionsButton: //direction button stuff goes here
-                final Button directionsButton = (Button) findViewById(R.id.directionsButton); // setup button function for directions
-                LayoutInflater layoutInflater //popup behavior
-                        = (LayoutInflater) getBaseContext()
-                        .getSystemService(LAYOUT_INFLATER_SERVICE);
-                View popupView = layoutInflater.inflate(R.layout.directionspopup, null);
+                Directions directions = new Directions(this);
 
-                Spinner startSpinner = (Spinner) popupView.findViewById(R.id.startSpinner); //initiate start spinner
-                String[] items = new String[]{"Leutze Hall", "CIS Building", "Bear Hall"}; //buildings
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, items); //adapter required for the spinner
-                startSpinner.setAdapter(adapter); //set adapter
-
-                Spinner endSpinner = (Spinner) popupView.findViewById(R.id.destinationSpinner); //initiate start spinner
-                endSpinner.setAdapter(adapter);
-
-                final PopupWindow popupWindow = new PopupWindow(
-                        popupView,
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT);
-
-                Button btnDismiss = (Button) popupView.findViewById(R.id.dismiss); //exit button
-
-                btnDismiss.setOnClickListener(new Button.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        // TODO Auto-generated method stub
-                        popupWindow.dismiss();
-                        try {
-                            // examples of directions url request
-                            URL url = new URL("https://maps.google.com/maps/api/directions/json?origin=34.227524,-77.873301&destination=34.227524,-77.873201&mode=walking&sensor=false&key=AIzaSyAU5Hq8LlAFjyFwBjEh__17CXR4bbsId40");
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        //example of decoding the polyline overview string
-                        ArrayList <LatLng> encoded = decodePoly("id|oErohzMm@kAOpAAH");
-                        //drawing the resulting ArrayList
-                        drawPrimaryLinePath(encoded);
-
-                        //the directions only show the sidewalk paths.
-                        ArrayList<LatLng> latlng1 = new ArrayList();
-                        latlng1.add(new LatLng(34.227895,-77.872604));
-                        latlng1.add(encoded.get(0));
-                        drawPrimaryLinePath(latlng1);
-
-                        CameraPosition cameraPosition =
-                                new CameraPosition.Builder()
-                                        .target(new LatLng(34.227524, -77.873301))
-                                        .bearing(45)
-                                        .tilt(90)
-                                        .zoom(mMap.getCameraPosition().zoom)
-                                        .build();
-                        mMap.animateCamera(
-                                CameraUpdateFactory.newCameraPosition(cameraPosition),
-                                new GoogleMap.CancelableCallback() {
-
-                                    @Override
-                                    public void onFinish() {
-                                    }
-
-                                    @Override
-                                    public void onCancel() {
-                                    }
-                                }
-                        );
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(34.227524,-77.873301)));
-                        mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
-
-                    }
-                });
-
-                popupWindow.showAsDropDown(directionsButton, 50, -30);
                 break;
 
 
@@ -160,78 +91,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             case R.id.busButton:
 
                 Buses bus = new Buses(this);
-                /**
-                final Button busButton = (Button) findViewById(R.id.busButton); // setup button function for directions
-                LayoutInflater layoutInflater1 //popup behavior
-                        = (LayoutInflater) getBaseContext()
-                        .getSystemService(LAYOUT_INFLATER_SERVICE);
-                View popupView1 = layoutInflater1.inflate(R.layout.buspopup, null);
 
-                final Spinner busRouteSpinner = (Spinner) popupView1.findViewById(R.id.busRouteSpinner); //initiate start spinner
-                String[] busRouteNames = new String[]{"Green", "Teal", "Red"}; //bus routes
-                ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinnerlayout, busRouteNames); //adapter required for the spinner
-                busRouteSpinner.setAdapter(adapter1); //set adapter
-
-
-
-                final PopupWindow popupWindow1 = new PopupWindow(
-                        popupView1,
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT);
-
-                Button exitButton = (Button) popupView1.findViewById(R.id.dismiss); //exit button
-                exitButton.setOnClickListener(new Button.OnClickListener() {
-
-                    @Override
-                     public void onClick(View v) {
-                        // TODO Auto-generated method stub
-                        popupWindow1.dismiss();
-                    }
-                });
-                Button goButton = (Button) popupView1.findViewById(R.id.go); //go button
-                goButton.setOnClickListener(new Button.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                      if (busRouteSpinner.getSelectedItem().toString().equals("Green"))
-                        {
-                            System.out.println("YEP IT FUCKIN WORKED");
-                            try {
-                                String fullString = "";
-                                double latitude = 0;
-                                double longitude = 0;
-                                URL url = new URL("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=702%20UNCW%20GREEN&iefix=36855");
-                                BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-                                String line;
-                                while ((line = reader.readLine()) != null) {
-
-                                    if (line.contains("<latitude>")) {
-                                        System.out.println(line.substring(10, line.indexOf("</")));
-                                        latitude = Double.parseDouble(line.substring(10, line.indexOf("</")));
-
-
-                                    }
-                                    if (line.contains("<longitude>")) {
-                                        System.out.println(line.substring(11, line.indexOf("</")));
-                                        longitude = Double.parseDouble(line.substring(11, line.indexOf("</")));
-                                    }
-                                }
-                                Marker bikeMarker = mMap.addMarker(new MarkerOptions()
-                                        .position(new LatLng(latitude, longitude))
-                                        .title("GREEN BUS")
-                                        .snippet("brings bryan to school some days")
-                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
-                                System.out.println(fullString);
-                                reader.close();
-                            } catch (MalformedURLException e) {
-                            } catch (IOException e) {
-                            } ;
-                        }
-                    }
-                });
-
-                popupWindow1.showAsDropDown(busButton, 50, -30);
-                 **/
                 break;
 
 
@@ -241,35 +101,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
             case R.id.POIButton:
-                final Button POIButton = (Button) findViewById(R.id.POIButton); // setup button function for directions
-                LayoutInflater layoutInflater2 //popup behavior
-                        = (LayoutInflater) getBaseContext()
-                        .getSystemService(LAYOUT_INFLATER_SERVICE);
-                View popupView2 = layoutInflater2.inflate(R.layout.poipopup, null);
-
-                Spinner POISpinner = (Spinner) popupView2.findViewById(R.id.POISpinner); //initiate start spinner
-                String[] POIs = new String[]{"Leutze Hall", "CIS Building", "Bear Hall"}; //buildings
-                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, POIs); //adapter required for the spinner
-                POISpinner.setAdapter(adapter2); //set adapter
-
-
-
-                final PopupWindow popupWindow2 = new PopupWindow(
-                        popupView2,
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT);
-
-                Button exitButton1 = (Button) popupView2.findViewById(R.id.dismiss); //exit button
-                exitButton1.setOnClickListener(new Button.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        // TODO Auto-generated method stub
-                        popupWindow2.dismiss();
-                    }
-                });
-
-                popupWindow2.showAsDropDown(POIButton, 50, -30);
+                POI poi = new POI(this);
                 break;
 
         }
@@ -341,35 +173,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addPolyline(options);
 
     }
-    public static ArrayList decodePoly(String encoded) {
-        ArrayList poly = new ArrayList();
-        int index = 0, len = encoded.length();
-        int lat = 0, lng = 0;
-        while (index < len) {
-            int b, shift = 0, result = 0;
-            do {
-                b = encoded.charAt(index++) - 63;
-                result |= (b & 0x1f) << shift;
-                shift += 5;
-            } while (b >= 0x20);
-            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-            lat += dlat;
-            shift = 0;
-            result = 0;
-            do {
-                b = encoded.charAt(index++) - 63;
-                result |= (b & 0x1f) << shift;
-                shift += 5;
-            } while (b >= 0x20);
-            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-            lng += dlng;
-            LatLng p = new LatLng((((double) lat / 1E5)),
-                    (((double) lng / 1E5)));
-            poly.add(p);
         }
-        return poly;
-    }
-    }
 /**
  public void addListenerOnbikeCheckbox() {
  bikeCheckbox = (CheckBox) findViewById(R.id.checkBox);
