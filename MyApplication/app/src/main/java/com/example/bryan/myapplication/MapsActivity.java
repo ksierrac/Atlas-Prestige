@@ -30,6 +30,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import android.view.View.OnClickListener;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
@@ -62,11 +63,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
-        final Button bikeButton = (Button) findViewById(R.id.bikesButton); // setup button function for directions
-
-        final Button foodButton = (Button) findViewById(R.id.foodButton); // setup button function for directions
-
     }
 
     /**
@@ -74,7 +70,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * @param v the View
      */
 
-    public void onButtonClicked(View v) {
+    public void onButtonClicked(View v) throws FileNotFoundException{
         switch (v.getId()) {
 
             case R.id.directionsButton: //direction button stuff goes here

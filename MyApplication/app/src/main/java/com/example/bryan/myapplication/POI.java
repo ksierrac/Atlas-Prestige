@@ -14,17 +14,20 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Created by Vika on 3/12/2016.
  */
 public class POI {
     MapsActivity mapScreen;
-    public POI(MapsActivity map)
+    public POI(MapsActivity map) throws FileNotFoundException
 
     {
 
@@ -36,7 +39,12 @@ public class POI {
         View popupView1 = layoutInflater1.inflate(R.layout.poipopup, null);
 
         final Spinner busRouteSpinner = (Spinner) popupView1.findViewById(R.id.POISpinner); //initiate start spinner
-        String[] busRouteNames = new String[]{"Building1", "Building2", "Building3"}; //bus routes
+        //String[] busRouteNames = new String[]{"Building1", "Building2", "Building3"}; //bus routes
+        BuildingData data= new BuildingData();
+
+        String[] busRouteNames = data.buildingCoordinates.keySet().toArray(new String[data.buildingCoordinates.keySet().size()]);
+
+
         ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(mapScreen.getApplicationContext(), R.layout.spinnerlayout, busRouteNames); //adapter required for the spinner
         busRouteSpinner.setAdapter(adapter1); //set adapter
 
