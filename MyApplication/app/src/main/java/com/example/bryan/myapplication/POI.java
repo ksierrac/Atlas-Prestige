@@ -16,6 +16,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -27,7 +28,7 @@ import java.util.Set;
  */
 public class POI {
     MapsActivity mapScreen;
-    public POI(MapsActivity map) throws FileNotFoundException
+    public POI(MapsActivity map, InputStream is) throws IOException
 
     {
 
@@ -40,7 +41,7 @@ public class POI {
 
         final Spinner busRouteSpinner = (Spinner) popupView1.findViewById(R.id.POISpinner); //initiate start spinner
         //String[] busRouteNames = new String[]{"Building1", "Building2", "Building3"}; //bus routes
-        BuildingData data= new BuildingData();
+        BuildingData data= new BuildingData(is);
 
         String[] busRouteNames = data.buildingCoordinates.keySet().toArray(new String[data.buildingCoordinates.keySet().size()]);
 

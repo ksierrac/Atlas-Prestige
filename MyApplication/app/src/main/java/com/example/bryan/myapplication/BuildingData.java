@@ -1,10 +1,14 @@
 package com.example.bryan.myapplication;
 
+import android.content.Context;
 import android.graphics.Point;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Enumeration;
@@ -21,9 +25,9 @@ public class BuildingData {
 
     public HashMap<String, ArrayList<LatLng>> buildingCoordinates = new HashMap<String, ArrayList<LatLng>>();
 
-    public BuildingData() throws FileNotFoundException {
-        File f = new File("buildingcoordinates.txt");
-        Scanner scan = new Scanner(f);
+    public BuildingData( InputStream is) throws IOException {
+
+        Scanner scan = new Scanner(is);
         while (scan.hasNextLine()) {
             String line = scan.nextLine();
             Scanner in = new Scanner(line);
