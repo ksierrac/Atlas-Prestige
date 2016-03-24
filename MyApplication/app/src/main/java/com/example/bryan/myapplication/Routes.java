@@ -16,6 +16,8 @@ public class Routes {
 
     public Routes(ArrayList<LatLng> listLocsToDraw, MapsActivity maps) {
         mapScreen = maps;
+
+
         {
             if (mapScreen.mMap == null) {
                 return;

@@ -43,10 +43,10 @@ public class POI {
         //String[] busRouteNames = new String[]{"Building1", "Building2", "Building3"}; //bus routes
         BuildingData data= new BuildingData(is);
 
-        String[] busRouteNames = data.buildingCoordinates.keySet().toArray(new String[data.buildingCoordinates.keySet().size()]);
+        String[] buildingNames = data.buildingCoordinates.keySet().toArray(new String[data.buildingCoordinates.keySet().size()]);
 
 
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(mapScreen.getApplicationContext(), R.layout.spinnerlayout, busRouteNames); //adapter required for the spinner
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(mapScreen.getApplicationContext(), R.layout.spinnerlayout, buildingNames); //adapter required for the spinner
         busRouteSpinner.setAdapter(adapter1); //set adapter
 
 

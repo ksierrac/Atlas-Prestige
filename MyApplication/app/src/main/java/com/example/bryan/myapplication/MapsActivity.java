@@ -72,10 +72,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
 
     public void onButtonClicked(View v) throws IOException{
+        InputStream is = getAssets().open("buildingcoordinates.txt");
         switch (v.getId()) {
 
             case R.id.directionsButton: //direction button stuff goes here
-                Directions directions = new Directions(this);
+                mMap.clear();
+                Directions directions = new Directions(this,is);
 
                 break;
 
@@ -98,7 +100,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
             case R.id.POIButton:
-                InputStream is = getAssets().open("buildingcoordinates.txt");
+
                 POI poi = new POI(this,is);
                 break;
 
@@ -122,7 +124,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
+        // Add a marker in CIS and move the camera
         LatLng CIS = new LatLng(34.226107, -77.871775);
         LatLng leutzHall = new LatLng(34.227180, -77.871813);
         LatLng bearHall = new LatLng(34.228493, -77.872800);
