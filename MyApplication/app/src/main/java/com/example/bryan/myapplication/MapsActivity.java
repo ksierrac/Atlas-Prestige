@@ -72,6 +72,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
 
     public void onButtonClicked(View v) throws IOException{
+
         InputStream is = getAssets().open("buildingcoordinates.txt");
         switch (v.getId()) {
 

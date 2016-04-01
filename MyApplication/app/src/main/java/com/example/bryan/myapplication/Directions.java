@@ -10,10 +10,18 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.maps.GoogleMap.CancelableCallback;
+import android.view.animation.Interpolator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,6 +29,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -29,6 +38,11 @@ import java.util.ArrayList;
 public class Directions {
 
     MapsActivity mapScreen;
+    private List<Marker> markers = new ArrayList<Marker>();
+    int currentPt;
+    int ANIMATE_SPEED = 500;
+    private String startBuilding = "";
+    private String endBuilding = "";
 
     public Directions(MapsActivity map, InputStream is) throws IOException{
 
@@ -76,8 +90,12 @@ public class Directions {
                 LatLng startDestination = chosenEntrances.get(0);
                 LatLng endDestination = chosenEntrances.get(1);
                 System.out.println(startDestination);
+                startBuilding = startSpinner.getSelectedItem().toString();
+                endBuilding =  endSpinner.getSelectedItem().toString();
+
 
                 try {
+
 
 
 
@@ -87,7 +105,6 @@ public class Directions {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
                     String line;
                     String test;
-                    Polyline test1;
                     String testString = "";
 
                     while ((line = reader.readLine()) != null) {
@@ -103,8 +120,11 @@ public class Directions {
 
                     // there is a problem with backslashes.....example kenan auditorium to depaulo hall.... damnit!!!!
                     ArrayList<LatLng> encoded = decodePoly(test2);
+
                     encoded.add(endDestination);
                     encoded.add(0,startDestination);
+                    addMarkersToMap(encoded);
+                    startAnimation();
                     //drawing the resulting ArrayList
                     new Routes(encoded, mapScreen);
                     System.out.println(test);
@@ -177,6 +197,120 @@ public class Directions {
 
         return chosenEntrances;
     }
+    public void addMarkersToMap(ArrayList<LatLng> latLngs) {
+        for (LatLng latLng : latLngs) {
+            Marker marker = mapScreen.mMap.addMarker(new MarkerOptions().position(latLng)
+                    .title("title")
+                    .snippet("snippet"));
+            marker.setVisible(false);
+            markers.add(marker);
+
+        }
+    }
+
+    private float bearingBetweenLatLngs(LatLng begin,LatLng end) {
+        Location beginL= convertLatLngToLocation(begin);
+        Location endL= convertLatLngToLocation(end);
+        return beginL.bearingTo(endL);
+    }
+
+    private Location convertLatLngToLocation(LatLng latLng) {
+        Location loc = new Location("someLoc");
+        loc.setLatitude(latLng.latitude);
+        loc.setLongitude(latLng.longitude);
+        return loc;
+    }
+
+    CancelableCallback MyCancelableCallback = new CancelableCallback(){
+
+        @Override
+        public void onCancel() {
+            for (Marker marker: markers)
+            {
+                marker.setVisible(false);
+                markers.get(0).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+                markers.get(0).setVisible(true);
+                markers.get(0).setTitle(startBuilding);
 
 
+                markers.get(markers.size()-1).setVisible(true);
+                markers.get(markers.size()-1).setTitle(endBuilding);
+                markers.get(markers.size()-1).showInfoWindow();
+
+            }
+            System.out.println("********** oncancel");
+        }
+
+
+        @Override
+        public void onFinish() {
+
+            if(++currentPt < markers.size()){
+                float targetBearing = bearingBetweenLatLngs( mapScreen.mMap.getCameraPosition().target, markers.get(currentPt).getPosition());
+                for (Marker marker: markers)
+                {
+                    marker.setVisible(false);
+                }
+                LatLng targetLatLng = markers.get(currentPt).getPosition();
+                markers.get(currentPt).setVisible(true);
+                System.out.println(" ------- " + currentPt + " - " + markers.size() + " - " + targetBearing + " - " + targetLatLng);
+
+                CameraPosition cameraPosition =
+                        new CameraPosition.Builder()
+                                .target(targetLatLng)
+                                .tilt(0)
+                                .bearing(0)
+                                .zoom( mapScreen.mMap.getCameraPosition().zoom)
+                                .build();
+
+                mapScreen.mMap.animateCamera(
+                        CameraUpdateFactory.newCameraPosition(cameraPosition),
+                        ANIMATE_SPEED,
+                        currentPt==markers.size()-1 ? FinalCancelableCallback : MyCancelableCallback);
+
+//						googleMap.moveCamera(
+//								CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+
+
+            }
+
+        }
+
+    };
+
+    CancelableCallback FinalCancelableCallback = new CancelableCallback() {
+
+        @Override
+        public void onFinish() {
+            mapScreen.mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+
+            markers.get(0).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+            markers.get(0).setVisible(true);
+            markers.get(0).setTitle(startBuilding);
+
+
+            markers.get(markers.size()-1).setVisible(true);
+            markers.get(markers.size()-1).setTitle(endBuilding);
+            markers.get(markers.size()-1).showInfoWindow();
+
+        }
+
+        @Override
+        public void onCancel() {
+
+        }
+    };
+
+    public void startAnimation() {
+        mapScreen.mMap.animateCamera(
+                CameraUpdateFactory.zoomTo(mapScreen.mMap.getCameraPosition().zoom + 2),
+                100,
+                MyCancelableCallback);
+
+        currentPt = 0-1;
+
+    }
+
+    
 }
