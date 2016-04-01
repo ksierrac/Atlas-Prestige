@@ -12,6 +12,7 @@ import android.widget.Spinner;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.io.BufferedReader;
@@ -86,6 +87,7 @@ public class Directions {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
                     String line;
                     String test;
+                    Polyline test1;
                     String testString = "";
 
                     while ((line = reader.readLine()) != null) {
@@ -96,8 +98,11 @@ public class Directions {
                     test = testString.substring(testString.indexOf("overview_polyline"),testString.indexOf("summary")-1);
                     test = test.substring(test.indexOf("points")+11,test.lastIndexOf('"'));
                     System.out.println(test);
+                    String test2 = test.replaceAll("\\\\\\\\", "\\\\");
+                    System.out.println(test2);
+
                     // there is a problem with backslashes.....example kenan auditorium to depaulo hall.... damnit!!!!
-                    ArrayList<LatLng> encoded = decodePoly(test);
+                    ArrayList<LatLng> encoded = decodePoly(test2);
                     encoded.add(endDestination);
                     encoded.add(0,startDestination);
                     //drawing the resulting ArrayList
@@ -172,5 +177,6 @@ public class Directions {
 
         return chosenEntrances;
     }
+
 
 }
