@@ -1,6 +1,7 @@
 package com.example.bryan.myapplication;
 
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -286,7 +287,8 @@ public class Directions {
         public void onFinish() {
             mapScreen.mMap.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
 
-            markers.get(0).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+            //markers.get(0).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+            markers.get(0).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.uncw));
             markers.get(0).setVisible(true);
             markers.get(0).setTitle(startBuilding);
 
