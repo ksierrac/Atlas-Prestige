@@ -15,9 +15,10 @@
     Once you have your key (it starts with "AIza"), replace the "google_maps_key"
     string in this file.
     -->
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDvrT_Pxe6cvLmR_wJjs7gczGeDrHOquz8</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAHfKaeF_PpYN39Lus00etsMhYuQpdK-_c</string>
 <!--  Bryans Maps Key: AIzaSyDvrT_Pxe6cvLmR_wJjs7gczGeDrHOquz8     -->
     <!-- Bryan's Directions API key: AIzaSyAU5Hq8LlAFjyFwBjEh__17CXR4bbsId40 -->
 <!-- Victorias Key: AIzaSyCCArLa-EYGnOn4AnJAdCV-tEZQqQV7-sc -->
+<!-- Sierra's key: AIzaSyAHfKaeF_PpYN39Lus00etsMhYuQpdK-_c -->
 
 </resources>
