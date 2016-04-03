@@ -1,5 +1,6 @@
 package com.example.bryan.myapplication;
 
+import android.net.wifi.p2p.WifiP2pManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,9 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 /**
  * Created by Vika on 3/9/2016.
@@ -26,16 +30,33 @@ import java.util.Map;
 public class Buses {
 
     MapsActivity mapScreen;
+
     public Buses(MapsActivity map)
 
     {
 
+
         mapScreen = map;
+
         final Button busButton = (Button) mapScreen.findViewById(R.id.busButton); // setup button function for directions
         LayoutInflater layoutInflater1 //popup behavior
                 = (LayoutInflater) mapScreen.getBaseContext()
                 .getSystemService(mapScreen.LAYOUT_INFLATER_SERVICE);
-        View popupView1 = layoutInflater1.inflate(R.layout.buspopup, null);
+        final View popupView1 = layoutInflater1.inflate(R.layout.buspopup, null);
+
+        final Timer mainTimer = new Timer();
+
+        final TimerTask timerTask;
+        timerTask = new TimerTask() {
+
+            public void run() {
+                System.out.println("AYEEE");
+                updateMap(mapScreen);
+
+            }
+        };
+
+
 
         final Spinner busRouteSpinner = (Spinner) popupView1.findViewById(R.id.busRouteSpinner); //initiate start spinner
         String[] busRouteNames = new String[]{"Green", "Teal", "Red"}; //bus routes
@@ -63,38 +84,9 @@ public class Buses {
             @Override
             public void onClick(View v) {
                 if (busRouteSpinner.getSelectedItem().toString().equals("Green")) {
-                    System.out.println("YEP IT FUCKIN WORKED");
-                    try {
-                        String fullString = "";
-                        double latitude = 0;
-                        double longitude = 0;
-                        URL url = new URL("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=702%20UNCW%20GREEN&iefix=36855");
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-                        String line;
-                        while ((line = reader.readLine()) != null) {
 
-                            if (line.contains("<latitude>")) {
-                                System.out.println(line.substring(10, line.indexOf("</")));
-                                latitude = Double.parseDouble(line.substring(10, line.indexOf("</")));
-
-
-                            }
-                            if (line.contains("<longitude>")) {
-                                System.out.println(line.substring(11, line.indexOf("</")));
-                                longitude = Double.parseDouble(line.substring(11, line.indexOf("</")));
-                            }
-                        }
-                        Marker busmarker = mapScreen.mMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(latitude, longitude))
-                                .title("GREEN BUS")
-                                .snippet("brings bryan to school some days")
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
-                        System.out.println(fullString);
-                        reader.close();
-                    } catch (MalformedURLException e) {
-                    } catch (IOException e) {
-                    }
-                    ;
+                    updateMap(mapScreen);
+                    mainTimer.scheduleAtFixedRate(timerTask, 0, 1000);
                 }
             }
         });
@@ -102,4 +94,41 @@ public class Buses {
         popupWindow1.showAsDropDown(busButton, 50, -30);
 
     }
+    private  void updateMap(MapsActivity screen)
+    {
+        System.out.println("YEP IT FUCKIN WORKED");
+        try {
+
+            String fullString = "";
+            double latitude = 0;
+            double longitude = 0;
+            URL url = new URL("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=702%20UNCW%20GREEN&iefix=36855");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+
+                if (line.contains("<latitude>")) {
+                    System.out.println(line.substring(10, line.indexOf("</")));
+                    latitude = Double.parseDouble(line.substring(10, line.indexOf("</")));
+
+
+                }
+                if (line.contains("<longitude>")) {
+                    System.out.println(line.substring(11, line.indexOf("</")));
+                    longitude = Double.parseDouble(line.substring(11, line.indexOf("</")));
+                }
+            }
+            Marker busmarker = screen.mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(34.226646, -77.875348))
+                    .title("GREEN BUS")
+                    .snippet("brings bryan to school some days")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
+            System.out.println(fullString);
+            reader.close();
+        } catch (MalformedURLException e) {
+        } catch (IOException e) {
+        }
+        ;
+    }
+
 }
