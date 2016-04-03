@@ -252,6 +252,7 @@ public class Directions {
                     marker.setVisible(false);
                 }
                 LatLng targetLatLng = markers.get(currentPt).getPosition();
+                markers.get(currentPt).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
                 markers.get(currentPt).setVisible(true);
                 System.out.println(" ------- " + currentPt + " - " + markers.size() + " - " + targetBearing + " - " + targetLatLng);
 
@@ -283,13 +284,13 @@ public class Directions {
 
         @Override
         public void onFinish() {
-            mapScreen.mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+            mapScreen.mMap.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
 
             markers.get(0).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
             markers.get(0).setVisible(true);
             markers.get(0).setTitle(startBuilding);
 
-
+            markers.get(markers.size()-1).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
             markers.get(markers.size()-1).setVisible(true);
             markers.get(markers.size()-1).setTitle(endBuilding);
             markers.get(markers.size()-1).showInfoWindow();
@@ -304,7 +305,7 @@ public class Directions {
 
     public void startAnimation() {
         mapScreen.mMap.animateCamera(
-                CameraUpdateFactory.zoomTo(mapScreen.mMap.getCameraPosition().zoom + 2),
+                CameraUpdateFactory.zoomTo(17),
                 100,
                 MyCancelableCallback);
 
