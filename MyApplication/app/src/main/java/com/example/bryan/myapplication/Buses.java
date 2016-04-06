@@ -50,8 +50,14 @@ public class Buses {
         timerTask = new TimerTask() {
 
             public void run() {
-                System.out.println("AYEEE");
-                updateMap(mapScreen);
+                mapScreen.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println("AYEEE");
+                        updateMap(mapScreen);
+
+                    }
+                });
 
             }
         };
@@ -96,8 +102,11 @@ public class Buses {
     }
     private  void updateMap(MapsActivity screen)
     {
+
         System.out.println("YEP IT FUCKIN WORKED");
         try {
+            System.out.println("test");
+            screen.mMap.clear();
 
             String fullString = "";
             double latitude = 0;
@@ -119,7 +128,7 @@ public class Buses {
                 }
             }
             Marker busmarker = screen.mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(34.226646, -77.875348))
+                    .position(new LatLng(latitude, longitude))
                     .title("GREEN BUS")
                     .snippet("brings bryan to school some days")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
