@@ -131,7 +131,7 @@ public class Directions {
                     addMarkersToMap(encoded);
                     startAnimation();
                     //drawing the resulting ArrayList
-                    new Routes(encoded, mapScreen);
+                    new Routes(encoded, mapScreen, Color.GREEN);
                     System.out.println(test);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -182,6 +182,8 @@ public class Directions {
         float[] results = new float[1];
         results[0] = 999999999;
         float min = 999999999;
+        startList.remove(0);
+        endList.remove(0);
         for (LatLng locRecorded : startList)
         {
             for (LatLng locRecorded2 : endList)

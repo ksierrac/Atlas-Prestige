@@ -1,5 +1,6 @@
 package com.example.bryan.myapplication;
 
+import android.graphics.Color;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +18,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -31,11 +34,13 @@ import java.util.TimerTask;
 public class Buses {
 
     MapsActivity mapScreen;
+    final BusRouteData data;
+    final Spinner busRouteSpinner;
 
-    public Buses(MapsActivity map)
+    public Buses(MapsActivity map, InputStream is) throws IOException
 
     {
-
+        data= new BusRouteData(is);
 
         mapScreen = map;
 
@@ -65,8 +70,12 @@ public class Buses {
 
 
 
-        final Spinner busRouteSpinner = (Spinner) popupView1.findViewById(R.id.busRouteSpinner); //initiate start spinner
-        String[] busRouteNames = new String[]{"Green", "Teal", "Red"}; //bus routes
+         busRouteSpinner = (Spinner) popupView1.findViewById(R.id.busRouteSpinner); //initiate start spinner
+
+
+
+        String[] busRouteNames = data.busRoutes.keySet().toArray(new String[data.busRoutes.keySet().size()]);
+
         ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(mapScreen.getApplicationContext(), R.layout.spinnerlayout, busRouteNames); //adapter required for the spinner
         busRouteSpinner.setAdapter(adapter1); //set adapter
 
@@ -93,11 +102,11 @@ public class Buses {
             public void onClick(View v) {
                 busButton.setSelected(false);
                 popupWindow1.dismiss();
-                if (busRouteSpinner.getSelectedItem().toString().equals("Green")) {
+
 
                     updateMap(mapScreen);
                     mainTimer.scheduleAtFixedRate(timerTask, 0, 1000);
-                }
+
             }
         });
 
@@ -108,10 +117,38 @@ public class Buses {
     {
 
         System.out.println("YEP IT FUCKIN WORKED");
+        int color = Color.BLACK;
         try {
             System.out.println("test");
             screen.mMap.clear();
 
+            ArrayList<LatLng> busCoords = data.busRoutes.get(busRouteSpinner.getSelectedItem());
+
+            if (busRouteSpinner.getSelectedItem().equals("Green")){
+                color = Color.GREEN;
+            }
+            if (busRouteSpinner.getSelectedItem().equals("Red") || busRouteSpinner.getSelectedItem().equals("Red Express")){
+                color = Color.RED;
+            }
+            if (busRouteSpinner.getSelectedItem().equals("Teal")){
+                color = Color.argb(255,0,128,128);
+            }
+            if (busRouteSpinner.getSelectedItem().equals("Blue")){
+                color = Color.BLUE;
+            }
+            if (busRouteSpinner.getSelectedItem().equals("Yellow")){
+                color = Color.YELLOW;
+            }
+            if (busRouteSpinner.getSelectedItem().equals("Grey")){
+                color = Color.DKGRAY;
+            }
+            if (busRouteSpinner.getSelectedItem().equals("Loop") || busRouteSpinner.getSelectedItem().equals("Loop Express")){
+                color = Color.CYAN;
+            }
+
+
+
+            Routes busRoute = new Routes(busCoords,mapScreen,color);
             String fullString = "";
             double latitude = 0;
             double longitude = 0;

@@ -37,11 +37,15 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.Vector;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
 
     public GoogleMap mMap;
+    BuildingData buildings;
+    ArrayList <LatLng> buildingCoords;
+
 
 
 
@@ -50,10 +54,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     /**
      * creating the main screen
      */
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build(); //needed for internet connection for some reason
         StrictMode.setThreadPolicy(policy);
+
+
+
 
         setContentView(R.layout.activity_maps);
         //addListenerOnbikeCheckbox(); //checkbox tests
@@ -66,6 +73,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    public void addMarkersToMap(ArrayList<LatLng> latLngs) {
+        for (LatLng latLng : latLngs) {
+            Marker marker = mMap.addMarker(new MarkerOptions().position(latLng));
+            marker.setVisible(true);
+        }
+    }
+
     /**
      * This serves as primary function for the interactions involving the 5 main buttons
      * @param v the View
@@ -74,36 +88,51 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onButtonClicked(View v) throws IOException{
 
         InputStream is = getAssets().open("buildingcoordinates.txt");
-
+        InputStream bikesIs = getAssets().open("bikeracks");
+        InputStream busesIs = getAssets().open("busRoutes.txt");
+        mMap.clear();
         switch (v.getId()) {
 
             case R.id.directionsButton: //direction button stuff goes here
-                mMap.clear();
+
+               addMarkersToMap(buildingCoords);
                 Directions directions = new Directions(this,is);
                 v.setSelected(true);
                 break;
 
 
             case R.id.bikesButton:
-                // Code for button 2 click
+
                 if (!v.isSelected()) {
                     v.setSelected(true);
+                    Scanner scan = new Scanner(bikesIs);
+                    ArrayList<LatLng> values = new ArrayList<LatLng>();
+                    while (scan.hasNext()) {
+                        LatLng coord = new LatLng(scan.nextDouble(),scan.nextDouble());
+                        values.add(coord);
+                    }
+                    scan.close();
+                    addMarkersToMap(values);
                 }
                 else {
                     v.setSelected(false);
+                    
+                   addMarkersToMap(buildingCoords);
                 }
                 break;
 
 
             case R.id.busButton:
 
-                Buses bus = new Buses(this);
+               addMarkersToMap(buildingCoords);
+                Buses bus = new Buses(this,busesIs);
                 v.setSelected(true);
+
                 break;
 
 
             case R.id.foodButton:
-                // Code for button 3 click
+
                 if (!v.isSelected()) {
                     v.setSelected(true);
                 }
@@ -115,6 +144,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
             case R.id.POIButton:
+
                 POI poi = new POI(this,is);
                 v.setSelected(true);
                 break;
@@ -149,7 +179,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(bearHall).title("Leutze Hall"));
 
         **/
+        try {
+            InputStream is = getAssets().open("buildingcoordinates.txt");
+            buildings = new BuildingData(is);
+            buildingCoords= new ArrayList<>();
+            for(String test: buildings.buildingCoordinates.keySet())
+            {
+                buildingCoords.add(buildings.buildingCoordinates.get(test).get(0));
+            }
+            addMarkersToMap(buildingCoords);
+        }
+        catch(IOException e){
 
+        };
         mMap.moveCamera(CameraUpdateFactory.newLatLng(CIS));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
         mMap.getUiSettings().setZoomControlsEnabled(false);

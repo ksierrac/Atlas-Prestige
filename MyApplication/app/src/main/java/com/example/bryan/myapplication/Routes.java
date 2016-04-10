@@ -14,7 +14,7 @@ public class Routes {
 
     MapsActivity mapScreen;
 
-    public Routes(ArrayList<LatLng> listLocsToDraw, MapsActivity maps) {
+    public Routes(ArrayList<LatLng> listLocsToDraw, MapsActivity maps, int c) {
         mapScreen = maps;
 
 
@@ -29,7 +29,7 @@ public class Routes {
 
             PolylineOptions options = new PolylineOptions();
 
-            options.color(Color.GREEN);
+            options.color(c);
             options.width(5);
             options.visible(true);
 
