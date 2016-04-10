@@ -1,0 +1,12 @@
+Hewlett Hall : (34.219935, -77.871228) : 
+Galloway Hall : (34.221275, -77.871915)
+Belk Hall : (34.222038, -77.871625)
+Cultural Arts Building   :   (34.228209, -77.867199)
+Education Building   :   (34.226932, -77.867414)
+Dobo Hall   :   (34.225533, -77.868267)
+Cameron Hall   :   (34.226040, -77.869589)
+McNeill Hall   :   (34.224947, -77.867129)
+Teaching Lab   :    (34.224043, -77.867773)
+Wagoner Dining Hall   :   (34.223156, -77.864673)
+Shops at the Crossing   :    (34.225657, -77.866539)
+Student Recreation Center   :    (34.222357, -77.867687)
