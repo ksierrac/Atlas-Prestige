@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 
@@ -38,7 +39,7 @@ public class Buses {
 
         mapScreen = map;
 
-        final Button busButton = (Button) mapScreen.findViewById(R.id.busButton); // setup button function for directions
+        final ImageButton busButton = (ImageButton) mapScreen.findViewById(R.id.busButton); // setup button function for directions
         LayoutInflater layoutInflater1 //popup behavior
                 = (LayoutInflater) mapScreen.getBaseContext()
                 .getSystemService(mapScreen.LAYOUT_INFLATER_SERVICE);
@@ -81,6 +82,7 @@ public class Buses {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
+                busButton.setSelected(false);
                 popupWindow1.dismiss();
             }
         });
@@ -89,6 +91,8 @@ public class Buses {
 
             @Override
             public void onClick(View v) {
+                busButton.setSelected(false);
+                popupWindow1.dismiss();
                 if (busRouteSpinner.getSelectedItem().toString().equals("Green")) {
 
                     updateMap(mapScreen);

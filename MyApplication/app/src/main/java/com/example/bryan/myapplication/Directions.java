@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 
@@ -48,7 +49,7 @@ public class Directions {
     public Directions(MapsActivity map, InputStream is) throws IOException{
 
         mapScreen = map;
-        final Button busButton = (Button) mapScreen.findViewById(R.id.directionsButton); // setup button function for directions
+        final ImageButton dirButton = (ImageButton) mapScreen.findViewById(R.id.directionsButton); // setup button function for directions
         LayoutInflater layoutInflater1 //popup behavior
                 = (LayoutInflater) mapScreen.getBaseContext()
                 .getSystemService(mapScreen.LAYOUT_INFLATER_SERVICE);
@@ -78,6 +79,7 @@ public class Directions {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
+                dirButton.setSelected(false);
                 popupWindow1.dismiss();
             }
         });
@@ -86,6 +88,8 @@ public class Directions {
 
             @Override
             public void onClick(View v) {
+                dirButton.setSelected(false);
+                popupWindow1.dismiss();
                 ArrayList <LatLng> chosenEntrances = new ArrayList<LatLng>();
                 chosenEntrances = shortestEntrancePath(data.buildingCoordinates.get(startSpinner.getSelectedItem().toString()), data.buildingCoordinates.get(endSpinner.getSelectedItem().toString()));
                 LatLng startDestination = chosenEntrances.get(0);
@@ -141,7 +145,7 @@ public class Directions {
             }
         });
 
-        popupWindow1.showAsDropDown(busButton, 50, -30);
+        popupWindow1.showAsDropDown(dirButton, 50, -30);
 
     }
     public static ArrayList decodePoly(String encoded) {

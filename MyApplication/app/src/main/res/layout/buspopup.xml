@@ -1,46 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="300dp"
-        android:orientation="vertical"
-        android:layout_margin="100dp"
-        android:background="#feffff">
-        >
-        <LinearLayout
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Choose a bus route:" />
 
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerVertical="true"
+    android:layout_centerHorizontal="true"
+    android:paddingTop="100dp"
+    android:paddingBottom="100dp"
+    android:paddingRight="50dp"
+    android:paddingLeft="50dp"
+    android:outlineProvider="paddedBounds">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:background="#c8ffffff"
+        android:padding="20dp"
+        android:backgroundTint="#cffcf9"
+        android:backgroundTintMode="multiply">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Choose a bus route:"
+                android:layout_gravity="top|center"
+                android:textColor="#0b1d50"
+                android:textStyle="italic"
+                android:textSize="@dimen/abc_text_size_headline_material"
+                android:textAlignment="center"
+                android:textIsSelectable="false" />
             <Spinner
                 android:id="@+id/busRouteSpinner"
-                android:layout_width="135dp"
-                android:layout_height="40dp"
                 android:spinnerMode="dialog"
-                android:background="#13ae60">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="#64ffffff"
+                android:backgroundTint="#ffffff"
+                android:backgroundTintMode="multiply"
+                android:textAlignment="inherit"
+                style="@style/TextAppearance.AppCompat.Headline">
             </Spinner>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
             <Button
                 android:id="@+id/go"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Go"
-
-                />
+                android:layout_weight="1"
+                android:text="Go!"
+                android:layout_gravity="center"
+                android:textColor="#0b1d50"
+                android:background="#64ffffff"
+                android:backgroundTint="#ffffff"
+                android:textSize="@dimen/abc_text_size_large_material"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="2dp"
+                android:singleLine="false"
+                android:backgroundTintMode="multiply" />
             <Button
                 android:id="@+id/dismiss"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Dismiss"
+                android:layout_toRightOf="@+id/go"
+                android:layout_weight="1"
+                android:text="Cancel"
+                android:layout_gravity="center"
+                android:textColor="#0b1d50"
+                android:background="#64ffffff"
+                android:backgroundTint="#ffffff"
+                android:backgroundTintMode="multiply"
+                android:textSize="@dimen/abc_text_size_large_material"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="2dp" />
 
-                />
-        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
+</RelativeLayout>

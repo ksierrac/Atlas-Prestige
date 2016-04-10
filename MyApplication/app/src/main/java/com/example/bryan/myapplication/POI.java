@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 
@@ -33,7 +34,7 @@ public class POI {
     {
 
         mapScreen = map;
-        final Button busButton = (Button) mapScreen.findViewById(R.id.POIButton); // setup button function for directions
+        final ImageButton poiButton = (ImageButton) mapScreen.findViewById(R.id.POIButton); // setup button function for directions
         LayoutInflater layoutInflater1 //popup behavior
                 = (LayoutInflater) mapScreen.getBaseContext()
                 .getSystemService(mapScreen.LAYOUT_INFLATER_SERVICE);
@@ -61,7 +62,9 @@ public class POI {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
+                poiButton.setSelected(false);
                 popupWindow1.dismiss();
+                System.out.println("selected=false");
             }
         });
         Button goButton = (Button) popupView1.findViewById(R.id.go); //go button
@@ -69,11 +72,14 @@ public class POI {
 
             @Override
             public void onClick(View v) {
+                poiButton.setSelected(false);
+                popupWindow1.dismiss();
+                System.out.println("selected=false");
 
             }
         });
 
-        popupWindow1.showAsDropDown(busButton, 50, -30);
+        popupWindow1.showAsDropDown(poiButton, 50, -30);
 
     }
 }

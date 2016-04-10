@@ -74,35 +74,49 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onButtonClicked(View v) throws IOException{
 
         InputStream is = getAssets().open("buildingcoordinates.txt");
+
         switch (v.getId()) {
 
             case R.id.directionsButton: //direction button stuff goes here
                 mMap.clear();
                 Directions directions = new Directions(this,is);
-
+                v.setSelected(true);
                 break;
 
 
             case R.id.bikesButton:
                 // Code for button 2 click
+                if (!v.isSelected()) {
+                    v.setSelected(true);
+                }
+                else {
+                    v.setSelected(false);
+                }
                 break;
 
 
             case R.id.busButton:
 
                 Buses bus = new Buses(this);
-
+                v.setSelected(true);
                 break;
 
 
             case R.id.foodButton:
                 // Code for button 3 click
+                if (!v.isSelected()) {
+                    v.setSelected(true);
+                }
+                else {
+                    v.setSelected(false);
+                }
+
                 break;
 
 
             case R.id.POIButton:
-
                 POI poi = new POI(this,is);
+                v.setSelected(true);
                 break;
 
         }
