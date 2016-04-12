@@ -37,6 +37,7 @@ public class Buses {
     final BusRouteData data;
     final Spinner busRouteSpinner;
     public Timer mainTimer;
+    URL url;
 
     public Buses(MapsActivity map, InputStream is) throws IOException
 
@@ -104,7 +105,52 @@ public class Buses {
                 busButton.setSelected(false);
                 popupWindow1.dismiss();
 
+                System.out.println("test");
+                ArrayList<LatLng> busCoords = data.busRoutes.get(busRouteSpinner.getSelectedItem());
 
+                int color = Color.BLACK;
+
+                try {
+                    if (busRouteSpinner.getSelectedItem().equals("Green")) {
+                        color = Color.GREEN;
+                        url = new URL("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=702%20UNCW%20GREEN&iefix=36855");
+                    }
+                    if (busRouteSpinner.getSelectedItem().equals("Red") || busRouteSpinner.getSelectedItem().equals("Red Express")) {
+                        color = Color.RED;
+                        url = new URL("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=702%20UNCW%20GREEN&iefix=36855");
+
+                    }
+                    if (busRouteSpinner.getSelectedItem().equals("Teal")) {
+                        color = Color.argb(255, 0, 128, 128);
+                        url = new URL("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=702%20UNCW%20GREEN&iefix=36855");
+                    }
+                    if (busRouteSpinner.getSelectedItem().equals("Blue")) {
+                        color = Color.BLUE;
+                        url = new URL("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=7012%20UNCW%20BLUE&iefix=36855");
+                    }
+                    if (busRouteSpinner.getSelectedItem().equals("Yellow")) {
+                        color = Color.YELLOW;
+                        url = new URL("hhttp://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=704%20UNCW%20YELLOW&iefix=36855");
+                    }
+                    if (busRouteSpinner.getSelectedItem().equals("Grey")) {
+                        color = Color.DKGRAY;
+                        url = new URL("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=711%20UNCW%20GREY&iefix=36855");
+                    }
+                    if (busRouteSpinner.getSelectedItem().equals("Loop")) {
+                        color = Color.CYAN;
+                        url = new URL("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=705%20UNCW%20LOOP&iefix=36855");
+                    }
+
+                    if (busRouteSpinner.getSelectedItem().equals("Loop Express")) {
+                        color = Color.CYAN;
+                        url = new URL("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=709%20UNCW%20LOOP%20EXPRESS&iefix=36855");
+                    }
+                }
+                catch (MalformedURLException e){};
+
+
+
+                Routes busRoute = new Routes(busCoords,mapScreen,color);
                     updateMap(mapScreen);
                     mainTimer.scheduleAtFixedRate(timerTask, 0, 30000);
 
@@ -117,43 +163,13 @@ public class Buses {
     private  void updateMap(MapsActivity screen)
     {
 
-        System.out.println("YEP IT FUCKIN WORKED");
-        int color = Color.BLACK;
+        System.out.println("worked");
+
         try {
-            System.out.println("test");
 
-
-            ArrayList<LatLng> busCoords = data.busRoutes.get(busRouteSpinner.getSelectedItem());
-
-            if (busRouteSpinner.getSelectedItem().equals("Green")){
-                color = Color.GREEN;
-            }
-            if (busRouteSpinner.getSelectedItem().equals("Red") || busRouteSpinner.getSelectedItem().equals("Red Express")){
-                color = Color.RED;
-            }
-            if (busRouteSpinner.getSelectedItem().equals("Teal")){
-                color = Color.argb(255,0,128,128);
-            }
-            if (busRouteSpinner.getSelectedItem().equals("Blue")){
-                color = Color.BLUE;
-            }
-            if (busRouteSpinner.getSelectedItem().equals("Yellow")){
-                color = Color.YELLOW;
-            }
-            if (busRouteSpinner.getSelectedItem().equals("Grey")){
-                color = Color.DKGRAY;
-            }
-            if (busRouteSpinner.getSelectedItem().equals("Loop") || busRouteSpinner.getSelectedItem().equals("Loop Express")){
-                color = Color.CYAN;
-            }
-
-
-
-            Routes busRoute = new Routes(busCoords,mapScreen,color);
             String fullString = "";
             double latitude = 0;
             double longitude = 0;
-            URL url = new URL("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=702%20UNCW%20GREEN&iefix=36855");
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
             String line;
             while ((line = reader.readLine()) != null) {

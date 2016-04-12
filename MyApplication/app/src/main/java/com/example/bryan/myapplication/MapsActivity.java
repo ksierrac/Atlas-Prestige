@@ -45,6 +45,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public GoogleMap mMap;
     BuildingData buildings;
     ArrayList <LatLng> buildingCoords;
+    Boolean busButton = false;
+    Buses bus;
 
 
 
@@ -94,7 +96,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         switch (v.getId()) {
 
             case R.id.directionsButton: //direction button stuff goes here
-
+                if (busButton)
+                {
+                    bus.mainTimer.cancel();
+                }
                addMarkersToMap(buildingCoords);
                 Directions directions = new Directions(this,is);
                 v.setSelected(true);
@@ -102,6 +107,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
             case R.id.bikesButton:
+
+                if (busButton)
+                {
+                    bus.mainTimer.cancel();
+                }
 
                 if (!v.isSelected()) {
                     v.setSelected(true);
@@ -124,8 +134,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             case R.id.busButton:
 
+                if (busButton)
+                {
+                    bus.mainTimer.cancel();
+                }
+
                 addMarkersToMap(buildingCoords);
-                Buses bus = new Buses(this,busesIs);
+                 bus = new Buses(this,busesIs);
+                busButton = true;
+
 
                 v.setSelected(true);
 
@@ -133,6 +150,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
             case R.id.foodButton:
+
+                if (busButton)
+                {
+                    bus.mainTimer.cancel();
+                }
 
                 if (!v.isSelected()) {
                     v.setSelected(true);
@@ -145,6 +167,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
             case R.id.POIButton:
+
+                if (busButton)
+                {
+                    bus.mainTimer.cancel();
+                }
 
                 POI poi = new POI(this,is);
                 v.setSelected(true);
