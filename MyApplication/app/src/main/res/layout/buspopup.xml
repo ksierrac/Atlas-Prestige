@@ -18,20 +18,16 @@
         android:orientation="vertical"
         android:gravity="center"
         android:layout_centerInParent="true"
-        android:background="#c8ffffff"
-        android:padding="20dp"
-        android:backgroundTint="#cffcf9"
-        android:backgroundTintMode="multiply">
+        android:background="#b2f0ff"
+        android:padding="20dp">
 
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Choose a bus route:"
-                android:layout_gravity="top|center"
                 android:textColor="#0b1d50"
                 android:textStyle="italic"
-                android:textSize="@dimen/abc_text_size_headline_material"
                 android:textAlignment="center"
                 android:textIsSelectable="false" />
             <Spinner
@@ -40,11 +36,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="#64ffffff"
-                android:backgroundTint="#ffffff"
-                android:backgroundTintMode="multiply"
+                android:background="#c3e9fbff"
                 android:textAlignment="inherit"
-                style="@style/TextAppearance.AppCompat.Headline">
+                android:contextClickable="true">
             </Spinner>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
@@ -59,13 +53,11 @@
                 android:text="Go!"
                 android:layout_gravity="center"
                 android:textColor="#0b1d50"
-                android:background="#64ffffff"
-                android:backgroundTint="#ffffff"
+                android:background="#c3e9fbff"
                 android:textSize="@dimen/abc_text_size_large_material"
                 android:layout_marginRight="2dp"
                 android:layout_marginTop="2dp"
-                android:singleLine="false"
-                android:backgroundTintMode="multiply" />
+                android:singleLine="false" />
             <Button
                 android:id="@+id/dismiss"
                 android:layout_width="match_parent"
@@ -75,9 +67,7 @@
                 android:text="Cancel"
                 android:layout_gravity="center"
                 android:textColor="#0b1d50"
-                android:background="#64ffffff"
-                android:backgroundTint="#ffffff"
-                android:backgroundTintMode="multiply"
+                android:background="#c3e9fbff"
                 android:textSize="@dimen/abc_text_size_large_material"
                 android:layout_marginLeft="2dp"
                 android:layout_marginTop="2dp" />

@@ -75,7 +75,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void addMarkersToMap(ArrayList<LatLng> latLngs) {
         for (LatLng latLng : latLngs) {
-            Marker marker = mMap.addMarker(new MarkerOptions().position(latLng));
+            Marker marker = mMap.addMarker(new MarkerOptions().position(latLng)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.mapsicon)));
+            marker.setVisible(true);
+        }
+    }
+
+    public void addBikeMarkersToMap(ArrayList<LatLng> latLngs) {
+        for (LatLng latLng : latLngs) {
+            Marker marker = mMap.addMarker(new MarkerOptions().position(latLng)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.bikeicon)));
             marker.setVisible(true);
         }
     }
@@ -112,7 +121,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         values.add(coord);
                     }
                     scan.close();
-                    addMarkersToMap(values);
+                    addBikeMarkersToMap(values);
                 }
                 else {
                     v.setSelected(false);
