@@ -116,7 +116,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
                 else {
                     v.setSelected(false);
-                    
+
                    addMarkersToMap(buildingCoords);
                 }
                 break;
