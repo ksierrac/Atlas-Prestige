@@ -124,8 +124,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             case R.id.busButton:
 
-               addMarkersToMap(buildingCoords);
+                addMarkersToMap(buildingCoords);
                 Buses bus = new Buses(this,busesIs);
+
                 v.setSelected(true);
 
                 break;
@@ -200,135 +201,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-
-
-
-    private void drawPrimaryLinePath( ArrayList<LatLng> listLocsToDraw )
-    {
-        if ( mMap == null )
-        {
-            return;
         }
 
-        if ( listLocsToDraw.size() < 2 )
-        {
-            return;
-        }
-
-        PolylineOptions options = new PolylineOptions();
-
-        options.color(Color.GREEN);
-        options.width(5);
-        options.visible(true);
-
-        for ( LatLng locRecorded : listLocsToDraw )
-        {
-            options.add( new LatLng( locRecorded.latitude,
-                    locRecorded.longitude) );
-        }
-
-        mMap.addPolyline(options);
-
-    }
-        }
-/**
- public void addListenerOnbikeCheckbox() {
- bikeCheckbox = (CheckBox) findViewById(R.id.checkBox);
-
- LatLng test = new LatLng(34.227524, -77.873301);
- LatLng test3 = new LatLng(34.227054, -77.872191);
- LatLng test2 = new LatLng(34.226107, -77.871775);
-
-
-
- places.add(test);
- places.add(test3);
- places.add(test2);
-
- bikeCheckbox.setOnClickListener(new OnClickListener() {
-@Override
-public void onClick(View v) {
-if (((CheckBox) v).isChecked()) {
-Marker bikeMarker = mMap.addMarker(new MarkerOptions()
-.position(new LatLng(34.227524, -77.873301))
-.title("Bike Rack")
-.snippet("you can put your bike here")
-.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
-Marker bikeMarker2 = mMap.addMarker(new MarkerOptions()
-.position(new LatLng(34.227524, -77.871111))
-.title("Bike Rack")
-.snippet("you can put your bike here")
-.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
-drawPrimaryLinePath(places);
-}
-if (!(((CheckBox) v).isChecked())) {
-
-}
-try {
-String fullString = "";
-double latitude = 0;
-double longitude = 0;
-URL url = new URL("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=702%20UNCW%20GREEN&iefix=36855");
-BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-String line;
-while ((line = reader.readLine()) != null) {
-
-if (line.contains("<latitude>")) {
-System.out.println(line.substring(10, line.indexOf("</")));
-latitude = Double.parseDouble(line.substring(10, line.indexOf("</")));
-
-
-}
-if (line.contains("<longitude>")) {
-System.out.println(line.substring(11, line.indexOf("</")));
-longitude = Double.parseDouble(line.substring(11, line.indexOf("</")));
-}
-}
-Marker bikeMarker = mMap.addMarker(new MarkerOptions()
-.position(new LatLng(latitude, longitude))
-.title("GREEN BUS")
-.snippet("brings bryan to school some days")
-.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
-System.out.println(fullString);
-reader.close();
-} catch (MalformedURLException e) {
-} catch (IOException e) {
-}
-try {
-String fullString = "";
-double latitude = 0;
-double longitude = 0;
-URL url = new URL("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=712%20UNCW%20TEAL&iefix=36855");
-BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-String line;
-while ((line = reader.readLine()) != null) {
-
-if (line.contains("<latitude>")) {
-System.out.println(line.substring(10, line.indexOf("</")));
-latitude = Double.parseDouble(line.substring(10, line.indexOf("</")));
-
-
-}
-if (line.contains("<longitude>")) {
-System.out.println(line.substring(11, line.indexOf("</")));
-longitude = Double.parseDouble(line.substring(11, line.indexOf("</")));
-}
-}
-Marker bikeMarker = mMap.addMarker(new MarkerOptions()
-.position(new LatLng(latitude, longitude))
-.title("TEAL BUS")
-.snippet("BRYAN IS THE GREATEST")
-.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-System.out.println(fullString);
-reader.close();
-} catch (MalformedURLException e) {
-} catch (IOException e) {
-}
-
-}
-});
-
- }
-
- **/
 

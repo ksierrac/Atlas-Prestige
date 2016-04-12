@@ -36,6 +36,7 @@ public class Buses {
     MapsActivity mapScreen;
     final BusRouteData data;
     final Spinner busRouteSpinner;
+    public Timer mainTimer;
 
     public Buses(MapsActivity map, InputStream is) throws IOException
 
@@ -50,7 +51,7 @@ public class Buses {
                 .getSystemService(mapScreen.LAYOUT_INFLATER_SERVICE);
         final View popupView1 = layoutInflater1.inflate(R.layout.buspopup, null);
 
-        final Timer mainTimer = new Timer();
+        mainTimer = new Timer();
 
         final TimerTask timerTask;
         timerTask = new TimerTask() {
@@ -105,7 +106,7 @@ public class Buses {
 
 
                     updateMap(mapScreen);
-                    mainTimer.scheduleAtFixedRate(timerTask, 0, 1000);
+                    mainTimer.scheduleAtFixedRate(timerTask, 0, 30000);
 
             }
         });
@@ -120,7 +121,7 @@ public class Buses {
         int color = Color.BLACK;
         try {
             System.out.println("test");
-            screen.mMap.clear();
+
 
             ArrayList<LatLng> busCoords = data.busRoutes.get(busRouteSpinner.getSelectedItem());
 
