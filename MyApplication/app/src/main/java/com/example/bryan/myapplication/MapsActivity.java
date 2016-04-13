@@ -198,6 +198,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
 
                 if (!v.isSelected()) {
+                    v.setSelected(true);
                     addFoodMarkersToMap(diningCoords);
                 } else {
                     v.setSelected(false);
