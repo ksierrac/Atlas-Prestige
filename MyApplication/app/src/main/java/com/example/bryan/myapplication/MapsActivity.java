@@ -38,15 +38,20 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.Vector;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
 
     public GoogleMap mMap;
     BuildingData buildings;
+    BuildingData dining;
+    ArrayList <LatLng> diningCoords;
     ArrayList <LatLng> buildingCoords;
+    ArrayList <String> diningKeys;
     Boolean busButton = false;
     Buses bus;
+
 
 
 
@@ -91,6 +96,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    public void addFoodMarkersToMap(ArrayList<LatLng> latLngs)  {
+
+
+        for (int i=0;i<latLngs.size();i++) {
+            Marker marker = mMap.addMarker(new MarkerOptions().position(latLngs.get(i))
+                    .title(diningKeys.get(i))
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.food)));
+            marker.setVisible(true);
+        }
+    }
+
     /**
      * This serves as primary function for the interactions involving the 5 main buttons
      * @param v the View
@@ -101,6 +117,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         InputStream is = getAssets().open("buildingcoordinates.txt");
         InputStream bikesIs = getAssets().open("bikeracks");
         InputStream busesIs = getAssets().open("busRoutes.txt");
+        InputStream foodIs = getAssets().open("dininglocations.txt");
         mMap.clear();
         switch (v.getId()) {
 
@@ -166,10 +183,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
 
                 if (!v.isSelected()) {
-                    v.setSelected(true);
+                    addFoodMarkersToMap(diningCoords);
                 }
                 else {
                     v.setSelected(false);
+                    addMarkersToMap(buildingCoords);
                 }
 
                 break;
@@ -225,6 +243,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 buildingCoords.add(buildings.buildingCoordinates.get(test).get(0));
             }
             addMarkersToMap(buildingCoords);
+            int i=0;
+            InputStream foodIs = getAssets().open("dininglocations.txt");
+            dining = new BuildingData(foodIs);
+            diningCoords= new ArrayList<>();
+            diningKeys = new ArrayList<String>();
+            for(String test: dining.buildingCoordinates.keySet())
+            {
+                diningCoords.add(dining.buildingCoordinates.get(test).get(0));
+                diningKeys.add(test);
+
+            }
+
         }
         catch(IOException e){
 
