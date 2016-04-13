@@ -9,12 +9,17 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 /**
- * Created by Sierra on 4/10/2016.
+ * BusRoute class
  */
 public class BusRouteData {
 
     public HashMap<String, ArrayList<LatLng>> busRoutes = new HashMap<String, ArrayList<LatLng>>();
 
+    /**
+     * creates Hashmap consisting of buses and their respective bus route Coords
+     * @param is InputStream for access to text file
+     * @throws IOException
+     */
     public BusRouteData( InputStream is) throws IOException {
 
         Scanner scan = new Scanner(is);

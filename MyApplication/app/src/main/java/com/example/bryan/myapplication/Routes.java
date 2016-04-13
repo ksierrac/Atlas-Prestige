@@ -14,6 +14,12 @@ public class Routes {
 
     MapsActivity mapScreen;
 
+    /**
+     * draws a polyline given ArrayList of coordinates
+     * @param listLocsToDraw arrayList of coordinates
+     * @param maps MapActivity to update
+     * @param c color integer
+     */
     public Routes(ArrayList<LatLng> listLocsToDraw, MapsActivity maps, int c) {
         mapScreen = maps;
 

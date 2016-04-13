@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -29,6 +30,13 @@ import java.util.Set;
  */
 public class POI {
     MapsActivity mapScreen;
+
+    /**
+     * initializes popup Window with functionality
+     * @param map
+     * @param is
+     * @throws IOException
+     */
     public POI(MapsActivity map, InputStream is) throws IOException
 
     {
@@ -42,7 +50,7 @@ public class POI {
 
         final Spinner busRouteSpinner = (Spinner) popupView1.findViewById(R.id.POISpinner); //initiate start spinner
         //String[] busRouteNames = new String[]{"Building1", "Building2", "Building3"}; //bus routes
-        BuildingData data= new BuildingData(is);
+        final BuildingData data= new BuildingData(is);
 
         String[] buildingNames = data.buildingCoordinates.keySet().toArray(new String[data.buildingCoordinates.keySet().size()]);
 
@@ -75,6 +83,11 @@ public class POI {
                 poiButton.setSelected(false);
                 popupWindow1.dismiss();
                 System.out.println("selected=false");
+                LatLng location = data.buildingCoordinates.get(busRouteSpinner.getSelectedItem()).get(0);
+                mapScreen.mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+                mapScreen.mMap.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
+                mapScreen.mMap.addMarker(new MarkerOptions().position(location)
+                        .icon(BitmapDescriptorFactory.defaultMarker()).title(busRouteSpinner.getSelectedItem().toString()));
 
             }
         });

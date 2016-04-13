@@ -7,9 +7,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+/**
+ * Splash Screen
+ */
 public class Start2Activity extends AppCompatActivity {
 
     @Override
+    /**
+     * creates splashscreen and delays into main application screen
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start2);
@@ -24,12 +30,5 @@ public class Start2Activity extends AppCompatActivity {
         }, 5000);
     }
 
-   /** public void ShowBuildings(View view)
-    {
-       Intent intent = new Intent(this,MapsActivity.class);
 
-        startActivity(intent);
-
-    }
-    **/
 }

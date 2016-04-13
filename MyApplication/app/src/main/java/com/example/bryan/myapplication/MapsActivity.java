@@ -41,6 +41,9 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.Vector;
 
+/**
+ * Main Activity for application.
+ */
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
 
     public GoogleMap mMap;
@@ -60,6 +63,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     /**
      * creating the main screen
+     * @param savedInstanceState the Bundle
      */
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -70,7 +74,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         setContentView(R.layout.activity_maps);
-        //addListenerOnbikeCheckbox(); //checkbox tests
 
 
         // Obtain the SupportMapFragment
@@ -80,6 +83,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    /**
+     * creates markers given an arrayList of coordinates uses building markers
+     * @param latLngs the arrayList of coordinates
+     */
     public void addMarkersToMap(ArrayList<LatLng> latLngs) {
         for (LatLng latLng : latLngs) {
             Marker marker = mMap.addMarker(new MarkerOptions().position(latLng)
@@ -88,6 +95,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    /**
+     * creates markers given an arrayList of coordinates uses bike markers
+     * @param latLngs the ArrayList of coordinates
+     */
     public void addBikeMarkersToMap(ArrayList<LatLng> latLngs) {
         for (LatLng latLng : latLngs) {
             Marker marker = mMap.addMarker(new MarkerOptions().position(latLng)
@@ -96,6 +107,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    /**
+     * creates markers given an arrayList of coordinates uses dining markers
+     * @param latLngs the ArrayList of coordinates
+     */
     public void addFoodMarkersToMap(ArrayList<LatLng> latLngs)  {
 
 
@@ -184,8 +199,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 if (!v.isSelected()) {
                     addFoodMarkersToMap(diningCoords);
-                }
-                else {
+                } else {
                     v.setSelected(false);
                     addMarkersToMap(buildingCoords);
                 }
@@ -219,6 +233,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * If Google Play services is not installed on the device, the user will be prompted to install
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
+     * @param googleMap the google map
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -226,14 +241,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a marker in CIS and move the camera
         LatLng CIS = new LatLng(34.226107, -77.871775);
-        LatLng leutzHall = new LatLng(34.227180, -77.871813);
-        LatLng bearHall = new LatLng(34.228493, -77.872800);
-        /**
-        mMap.addMarker(new MarkerOptions().position(CIS).title("CIS BUILDING Marker WOOO").snippet("Home of Bryan, Sierra, and Victoria"));
-        mMap.addMarker(new MarkerOptions().position(leutzHall).title("Bear Hall"));
-        mMap.addMarker(new MarkerOptions().position(bearHall).title("Leutze Hall"));
 
-        **/
+
         try {
             InputStream is = getAssets().open("buildingcoordinates.txt");
             buildings = new BuildingData(is);

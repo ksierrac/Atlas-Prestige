@@ -29,7 +29,8 @@ import java.util.TimerTask;
 
 
 /**
- * Created by Vika on 3/9/2016.
+ *
+ * Buses Popup Window and Functionality
  */
 public class Buses {
 
@@ -38,7 +39,14 @@ public class Buses {
     final Spinner busRouteSpinner;
     public Timer mainTimer;
     URL url;
+    Marker busMarker;
 
+    /**
+     * Bus Constructor, automatically starts popupWindow upon intialization
+     * @param map MapActivity
+     * @param is input stream needed for hashMap access
+     * @throws IOException
+     */
     public Buses(MapsActivity map, InputStream is) throws IOException
 
     {
@@ -91,6 +99,9 @@ public class Buses {
         exitButton.setOnClickListener(new Button.OnClickListener() {
 
             @Override
+            /**
+             * when exit button is clicked
+             */
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 busButton.setSelected(false);
@@ -101,16 +112,25 @@ public class Buses {
         goButton.setOnClickListener(new Button.OnClickListener() {
 
             @Override
+            /**
+             * when go Button is clicked
+             */
             public void onClick(View v) {
                 busButton.setSelected(false);
                 popupWindow1.dismiss();
 
                 System.out.println("test");
                 ArrayList<LatLng> busCoords = data.busRoutes.get(busRouteSpinner.getSelectedItem());
+                 busMarker = mapScreen.mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(0, 0))
+                        .title("GREEN BUS")
+                        .snippet("brings bryan to school some days")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
 
                 int color = Color.BLACK;
 
                 try {
+                    //righthook.js -BRYAN
                     if (busRouteSpinner.getSelectedItem().equals("Green")) {
                         color = Color.GREEN;
                         url = new URL("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=702%20UNCW%20GREEN&iefix=36855");
@@ -122,7 +142,8 @@ public class Buses {
                     }
                     if (busRouteSpinner.getSelectedItem().equals("Teal")) {
                         color = Color.argb(255, 0, 128, 128);
-                        url = new URL("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=702%20UNCW%20GREEN&iefix=36855");
+                        url = new URL("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=712%20UNCW%20TEAL&iefix=4705");
+
                     }
                     if (busRouteSpinner.getSelectedItem().equals("Blue")) {
                         color = Color.BLUE;
@@ -130,11 +151,11 @@ public class Buses {
                     }
                     if (busRouteSpinner.getSelectedItem().equals("Yellow")) {
                         color = Color.YELLOW;
-                        url = new URL("hhttp://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=704%20UNCW%20YELLOW&iefix=36855");
+                        url = new URL("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=704%20UNCW%20YELLOW&iefix=36855");
                     }
                     if (busRouteSpinner.getSelectedItem().equals("Grey")) {
                         color = Color.DKGRAY;
-                        url = new URL("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=711%20UNCW%20GREY&iefix=36855");
+                        url = new URL("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=711%20GREY&iefix=33074");
                     }
                     if (busRouteSpinner.getSelectedItem().equals("Loop")) {
                         color = Color.CYAN;
@@ -160,6 +181,11 @@ public class Buses {
         popupWindow1.showAsDropDown(busButton, 50, -30);
 
     }
+
+    /**
+     * timer accesses this function to continually update bus position
+     * @param screen main MapActivity access
+     */
     private  void updateMap(MapsActivity screen)
     {
 
@@ -185,12 +211,11 @@ public class Buses {
                     longitude = Double.parseDouble(line.substring(11, line.indexOf("</")));
                 }
             }
-            Marker busmarker = screen.mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(latitude, longitude))
-                    .title("GREEN BUS")
-                    .snippet("brings bryan to school some days")
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
+
+
+            busMarker.setPosition(new LatLng(latitude,longitude));
             System.out.println(fullString);
+
             reader.close();
         } catch (MalformedURLException e) {
         } catch (IOException e) {

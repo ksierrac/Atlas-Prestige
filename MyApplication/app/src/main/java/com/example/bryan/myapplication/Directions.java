@@ -35,7 +35,7 @@ import java.util.List;
 
 
 /**
- * Created by Vika on 3/12/2016.
+ * Directions popup and Functionality
  */
 public class Directions {
 
@@ -46,6 +46,12 @@ public class Directions {
     private String startBuilding = "";
     private String endBuilding = "";
 
+    /**
+     * Initiates PopWindow
+     * @param map MapActivity screen
+     * @param is inputStream needed for hashmap
+     * @throws IOException
+     */
     public Directions(MapsActivity map, InputStream is) throws IOException{
 
         mapScreen = map;
@@ -102,8 +108,6 @@ public class Directions {
                 try {
 
 
-
-
                     // examples of directions url request
                     URL url = new URL("https://maps.google.com/maps/api/directions/json?origin=" + startDestination.latitude + "," + startDestination.longitude + "&destination=" + endDestination.latitude + "," + endDestination.longitude +"&mode=walking&sensor=false&key=AIzaSyAU5Hq8LlAFjyFwBjEh__17CXR4bbsId40");
                     System.out.println(url.toString());
@@ -148,6 +152,12 @@ public class Directions {
         popupWindow1.showAsDropDown(dirButton, 50, -30);
 
     }
+
+    /**
+     * takes encoded google Maps string and
+     * @param encoded encoded string to be decoded
+     * @return ArrayList of coordinates
+     */
     public static ArrayList decodePoly(String encoded) {
         ArrayList poly = new ArrayList();
         int index = 0, len = encoded.length();
@@ -176,6 +186,13 @@ public class Directions {
         }
         return poly;
     }
+
+    /**
+     * gets the shortest entrance distances
+     * @param startList entrances for Start Location in ArrayList
+     * @param endList entrances for Destination in ARrayList
+     * @return ArrayList of possible entrance combinations sorted by distance
+     */
     private ArrayList<LatLng> shortestEntrancePath (ArrayList<LatLng> startList, ArrayList<LatLng> endList)
     {
         ArrayList<LatLng> chosenEntrances= new ArrayList<LatLng>();
@@ -204,6 +221,11 @@ public class Directions {
 
         return chosenEntrances;
     }
+
+    /**
+     * Adds markers to the Map
+     * @param latLngs ArrayList of Coordinates
+     */
     public void addMarkersToMap(ArrayList<LatLng> latLngs) {
         for (LatLng latLng : latLngs) {
             Marker marker = mapScreen.mMap.addMarker(new MarkerOptions().position(latLng)
