@@ -1,0 +1,16 @@
+Chic-fil-a	:	34.225309 -77.873411
+Courtside Bagels	:	34.224786 -77.878373
+Dub's Cafe	:	34.225220 -77.875509
+Dunkin' Donuts	:	34.225673 -77.866550
+Einstein Bros Bagels	:	34.226152 -77.873932
+Fair Trade Market	:	34.226058 -77.869581
+Hawk's Nest	:	34.225540 -77.873347
+Market Place	:	34.225602 -77.861459
+POD Market 	:	34.225791 -77.873459
+POD Market	:	34.221430 -77.871716
+POD Market	:	34.225593 -77.866405
+Port City Java	:	34.227556 -77.874205
+Subway	:	34.225671 -77.873079
+The Landing	:	34.225919 -77.862183
+Wagoner Dining Hall	:	34.223305 -77.865053
+Wag Out	:	34.222870 -77.864699
