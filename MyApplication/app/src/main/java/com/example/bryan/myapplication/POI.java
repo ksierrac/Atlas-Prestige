@@ -34,10 +34,10 @@ public class POI {
     /**
      * initializes popup Window with functionality
      * @param map
-     * @param is
+     * @param buildings
      * @throws IOException
      */
-    public POI(MapsActivity map, InputStream is) throws IOException
+    public POI(MapsActivity map, BuildingData buildings) throws IOException
 
     {
 
@@ -50,7 +50,7 @@ public class POI {
 
         final Spinner busRouteSpinner = (Spinner) popupView1.findViewById(R.id.POISpinner); //initiate start spinner
         //String[] busRouteNames = new String[]{"Building1", "Building2", "Building3"}; //bus routes
-        final BuildingData data= new BuildingData(is);
+        final BuildingData data= buildings;
 
         String[] buildingNames = data.buildingCoordinates.keySet().toArray(new String[data.buildingCoordinates.keySet().size()]);
 

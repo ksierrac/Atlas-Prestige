@@ -49,10 +49,10 @@ public class Directions {
     /**
      * Initiates PopWindow
      * @param map MapActivity screen
-     * @param is inputStream needed for hashmap
+     * @param buildings hashmap for building coordinates
      * @throws IOException
      */
-    public Directions(MapsActivity map, InputStream is) throws IOException{
+    public Directions(MapsActivity map, BuildingData buildings) throws IOException{
 
         mapScreen = map;
         final ImageButton dirButton = (ImageButton) mapScreen.findViewById(R.id.directionsButton); // setup button function for directions
@@ -64,7 +64,8 @@ public class Directions {
 
         final Spinner startSpinner = (Spinner) popupView1.findViewById(R.id.startSpinner); //initiate start spinner
 
-        final BuildingData data= new BuildingData(is);
+        //final BuildingData data= new BuildingData(is);
+        final BuildingData data = buildings;
 
         String[] buildingNames = data.buildingCoordinates.keySet().toArray(new String[data.buildingCoordinates.keySet().size()]);
 

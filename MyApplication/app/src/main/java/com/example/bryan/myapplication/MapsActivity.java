@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -52,9 +53,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     ArrayList <LatLng> diningCoords;
     ArrayList <LatLng> buildingCoords;
     ArrayList <String> diningKeys;
+    ArrayList<LatLng> bikeCoords;
     Boolean busButton = false;
     Buses bus;
-
+    InputStream is;
+    InputStream bikesIs;
+    InputStream busesIs;
+    InputStream foodIs;
 
 
 
@@ -129,10 +134,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void onButtonClicked(View v) throws IOException{
 
-        InputStream is = getAssets().open("buildingcoordinates.txt");
-        InputStream bikesIs = getAssets().open("bikeracks");
-        InputStream busesIs = getAssets().open("busRoutes.txt");
-        InputStream foodIs = getAssets().open("dininglocations.txt");
+
         mMap.clear();
         switch (v.getId()) {
 
@@ -141,8 +143,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 {
                     bus.mainTimer.cancel();
                 }
-               addMarkersToMap(buildingCoords);
-                Directions directions = new Directions(this,is);
+                addMarkersToMap(buildingCoords);
+                Directions directions = new Directions(this,buildings);
                 v.setSelected(true);
                 break;
 
@@ -156,14 +158,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 if (!v.isSelected()) {
                     v.setSelected(true);
-                    Scanner scan = new Scanner(bikesIs);
-                    ArrayList<LatLng> values = new ArrayList<LatLng>();
-                    while (scan.hasNext()) {
-                        LatLng coord = new LatLng(scan.nextDouble(),scan.nextDouble());
-                        values.add(coord);
-                    }
-                    scan.close();
-                    addBikeMarkersToMap(values);
+
+                    addBikeMarkersToMap(bikeCoords);
                 }
                 else {
                     v.setSelected(false);
@@ -181,7 +177,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
 
                 addMarkersToMap(buildingCoords);
-                 bus = new Buses(this,busesIs);
+                bus = new Buses(this,busesIs);
                 busButton = true;
 
 
@@ -215,7 +211,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     bus.mainTimer.cancel();
                 }
 
-                POI poi = new POI(this,is);
+                POI poi = new POI(this,buildings);
                 v.setSelected(true);
                 break;
 
@@ -238,14 +234,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mMap = googleMap;
+
+        // get current location
+        try {
+            mMap.setMyLocationEnabled(true);
+            //location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        } catch (SecurityException e) {
+            System.out.println("current location didn't work");
+            //dialogGPS(this.getContext()); // lets the user know there is a problem with the gps
+        }
+
 
         // Add a marker in CIS and move the camera
         LatLng CIS = new LatLng(34.226107, -77.871775);
 
 
         try {
-            InputStream is = getAssets().open("buildingcoordinates.txt");
+            is = getAssets().open("buildingcoordinates.txt");
+            bikesIs = getAssets().open("bikeracks");
+            busesIs = getAssets().open("busRoutes.txt");
+            foodIs = getAssets().open("dininglocations.txt");
+
+            // create a list with center coordinates of buildings and add building markers
             buildings = new BuildingData(is);
             buildingCoords= new ArrayList<>();
             for(String test: buildings.buildingCoordinates.keySet())
@@ -253,8 +265,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 buildingCoords.add(buildings.buildingCoordinates.get(test).get(0));
             }
             addMarkersToMap(buildingCoords);
-            int i=0;
-            InputStream foodIs = getAssets().open("dininglocations.txt");
+
+            // create a list with dining coordinates
             dining = new BuildingData(foodIs);
             diningCoords= new ArrayList<>();
             diningKeys = new ArrayList<String>();
@@ -262,8 +274,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             {
                 diningCoords.add(dining.buildingCoordinates.get(test).get(0));
                 diningKeys.add(test);
-
             }
+
+            // create a list with bike coordinates
+            Scanner scan = new Scanner(bikesIs);
+            bikeCoords = new ArrayList<LatLng>();
+            while (scan.hasNext()) {
+                LatLng coord = new LatLng(scan.nextDouble(),scan.nextDouble());
+                bikeCoords.add(coord);
+            }
+            scan.close();
 
         }
         catch(IOException e){
@@ -276,7 +296,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     }
-
-        }
+}
 
 

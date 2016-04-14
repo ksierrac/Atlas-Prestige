@@ -30,7 +30,7 @@ public class BuildingData {
         Scanner scan = new Scanner(is);
         while (scan.hasNextLine()) {
             String line = scan.nextLine();
-            System.out.println(line);
+            //System.out.println(line);
             Scanner in = new Scanner(line);
             String key = "";
             String next = in.next();
@@ -39,11 +39,13 @@ public class BuildingData {
                 //System.out.println(key);
                 next = in.next();
             }
+
             ArrayList<LatLng> values = new ArrayList<LatLng>();
             while (in.hasNext()) {
                 LatLng coord = new LatLng(in.nextDouble(),in.nextDouble());
                 values.add(coord);
             }
+
             key = key.trim();
             buildingCoordinates.put(key, values);
         }
