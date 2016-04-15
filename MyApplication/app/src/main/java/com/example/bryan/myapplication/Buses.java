@@ -136,9 +136,14 @@ public class Buses {
                         color = Color.GREEN;
                         url = new URL("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=702%20UNCW%20GREEN&iefix=36855");
                     }
-                    if (busRouteSpinner.getSelectedItem().equals("Red") || busRouteSpinner.getSelectedItem().equals("Red Express")) {
+                    if (busRouteSpinner.getSelectedItem().equals("Red")){
                         color = Color.RED;
-                        url = new URL("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=702%20UNCW%20GREEN&iefix=36855");
+                        url = new URL("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=703%20UNCW%20RED&iefix=10651");
+
+                    }
+                    if (busRouteSpinner.getSelectedItem().equals("Red Express")) {
+                        color = Color.RED;
+                        url = new URL("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=7071%20UNCW%20RED%20EXP&iefix=79586");
 
                     }
                     if (busRouteSpinner.getSelectedItem().equals("Teal")) {
