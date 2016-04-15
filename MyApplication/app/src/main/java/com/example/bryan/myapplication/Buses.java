@@ -39,6 +39,7 @@ public class Buses {
     final Spinner busRouteSpinner;
     public Timer mainTimer;
     URL url;
+    URL url2;
     Marker busMarker;
     final PopupWindow popupWindow1;
 
@@ -154,6 +155,8 @@ public class Buses {
                     if (busRouteSpinner.getSelectedItem().equals("Blue")) {
                         color = Color.BLUE;
                         url = new URL("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=7012%20UNCW%20BLUE&iefix=36855");
+                        url2 = new URL ("http://text90947.com/bustracking/wavetransit/m/businfo.jsp?refine=7011%20UNCW%20BLUE&iefix=29513");
+
                     }
                     if (busRouteSpinner.getSelectedItem().equals("Yellow")) {
                         color = Color.YELLOW;
