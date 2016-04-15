@@ -95,13 +95,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     /**
-     * creates markers given an arrayList of coordinates uses building markers
+     * creates markers given an arrayList of coordinates, marker image and the size it needs to be scaled to
      * @param latLngs the arrayList of coordinates
      */
-    public void addMarkersToMap(ArrayList<LatLng> latLngs) {
-        Drawable drawable = ResourcesCompat.getDrawable( getResources(),R.drawable.mapsicon, null);
+    public void addMarkersToMap(ArrayList<LatLng> latLngs, int image, int size1, int size2) {
+        Drawable drawable = ResourcesCompat.getDrawable( getResources(),image, null);
         Bitmap b = ((BitmapDrawable)drawable).getBitmap();
-        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 50, 50, false);
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, size1, size2, false);
         for (LatLng latLng : latLngs) {
             Marker marker = mMap.addMarker(new MarkerOptions().position(latLng)
                     .icon(BitmapDescriptorFactory.fromBitmap(bitmapResized)));
@@ -195,7 +195,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 else {
                     v.setSelected(false);
                     directions.popupWindow1.dismiss(); //close the pop-up
-                    addMarkersToMap(buildingCoords); //display building markers
+                    addMarkersToMap(buildingCoords, R.drawable.mapsicon, 50, 50); //display building markers
                 }
 
                 break;
@@ -208,11 +208,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 if (!v.isSelected()) {
                     v.setSelected(true);
-                    addBikeMarkersToMap(bikeCoords);
+                    addMarkersToMap(buildingCoords, R.drawable.bikeicon, 60, 60);;
                 }
                 else {
                     v.setSelected(false);
-                    addMarkersToMap(buildingCoords);
+                    addMarkersToMap(buildingCoords, R.drawable.mapsicon, 50, 50);
                 }
                 break;
 
@@ -223,13 +223,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (busButton) {bus.mainTimer.cancel();}
 
                 if (!v.isSelected()) {
+                    v.setSelected(true);
                     bus = new Buses(this,busData);
                     busButton = true;
                 }
                 else {
                     v.setSelected(false);
                     busButton = false;
-                    addMarkersToMap(buildingCoords);
+                    addMarkersToMap(buildingCoords, R.drawable.mapsicon, 50, 50);
                 }
 
                 break;
@@ -242,10 +243,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 if (!v.isSelected()) {
                     v.setSelected(true);
-                    addFoodMarkersToMap(diningCoords);
+                    addMarkersToMap(buildingCoords, R.drawable.food, 70, 70);
                 } else {
                     v.setSelected(false);
-                    addMarkersToMap(buildingCoords);
+                    addMarkersToMap(buildingCoords, R.drawable.mapsicon, 50, 50);
                 }
 
                 break;
@@ -259,11 +260,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (!v.isSelected()) {
                     v.setSelected(true);
                     poi = new POI(this,buildings);
-                    addMarkersToMap(buildingCoords);
+                    addMarkersToMap(buildingCoords, R.drawable.mapsicon, 50, 50);
                 } else {
                     v.setSelected(false);
                     poi.popupWindow1.dismiss();
-                    addMarkersToMap(buildingCoords);
+                    addMarkersToMap(buildingCoords, R.drawable.mapsicon, 50, 50);
                 }
 
                 break;
@@ -317,7 +318,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             {
                 buildingCoords.add(buildings.buildingCoordinates.get(test).get(0));
             }
-            addMarkersToMap(buildingCoords);
+            addMarkersToMap(buildingCoords, R.drawable.mapsicon, 50, 50);
 
             // create a list with dining coordinates
             dining = new BuildingData(foodIs);
