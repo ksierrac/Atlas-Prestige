@@ -30,6 +30,7 @@ import java.util.Set;
  */
 public class POI {
     MapsActivity mapScreen;
+    final PopupWindow popupWindow1;
 
     /**
      * initializes popup Window with functionality
@@ -59,7 +60,7 @@ public class POI {
         busRouteSpinner.setAdapter(adapter1); //set adapter
 
 
-        final PopupWindow popupWindow1 = new PopupWindow(
+        popupWindow1 = new PopupWindow(
                 popupView1,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);

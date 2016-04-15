@@ -45,6 +45,7 @@ public class Directions {
     int ANIMATE_SPEED = 500;
     private String startBuilding = "";
     private String endBuilding = "";
+    final PopupWindow popupWindow1;
 
     /**
      * Initiates PopWindow
@@ -75,7 +76,7 @@ public class Directions {
         final Spinner endSpinner = (Spinner) popupView1.findViewById(R.id.destinationSpinner); //initiate start spinner
         endSpinner.setAdapter(adapter1);
 
-        final PopupWindow popupWindow1 = new PopupWindow(
+        popupWindow1 = new PopupWindow(
                 popupView1,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);

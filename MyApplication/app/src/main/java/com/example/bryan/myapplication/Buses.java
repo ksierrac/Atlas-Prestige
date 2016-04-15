@@ -40,17 +40,18 @@ public class Buses {
     public Timer mainTimer;
     URL url;
     Marker busMarker;
+    final PopupWindow popupWindow1;
 
     /**
      * Bus Constructor, automatically starts popupWindow upon intialization
      * @param map MapActivity
-     * @param is input stream needed for hashMap access
+     * @param busData hashmap with bus route names and coordinates
      * @throws IOException
      */
-    public Buses(MapsActivity map, InputStream is) throws IOException
+    public Buses(MapsActivity map, BusRouteData busData) throws IOException
 
     {
-        data= new BusRouteData(is);
+        data= busData;
 
         mapScreen = map;
 
@@ -90,7 +91,7 @@ public class Buses {
         busRouteSpinner.setAdapter(adapter1); //set adapter
 
 
-        final PopupWindow popupWindow1 = new PopupWindow(
+        popupWindow1 = new PopupWindow(
                 popupView1,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
