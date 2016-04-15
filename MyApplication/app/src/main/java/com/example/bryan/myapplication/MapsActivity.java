@@ -38,6 +38,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import android.view.View.OnClickListener;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -54,7 +55,7 @@ import java.util.Vector;
 /**
  * Main Activity for application.
  */
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
+public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWindowClickListener, OnMapReadyCallback{
 
     public GoogleMap mMap;
     BuildingData buildings;
@@ -92,6 +93,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
 
     }
 
@@ -293,6 +296,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap = googleMap;
 
+
+
         // get current location
         try {
             mMap.setMyLocationEnabled(true);
@@ -324,6 +329,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             addMarkersToMap(buildingCoords, R.drawable.mapsicon, 50, 50);
 
+
             // create a list with dining coordinates
             dining = new BuildingData(foodIs);
             diningCoords= new ArrayList<>();
@@ -349,6 +355,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         catch(IOException e){
 
         };
+        mMap.setOnInfoWindowClickListener(this);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(CIS));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
         mMap.getUiSettings().setZoomControlsEnabled(false);
@@ -356,6 +363,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Toast.makeText(this, marker.getTitle()+" blah blah blah",
+                Toast.LENGTH_LONG).show();
+        System.out.println("Marker infoWindow");
+    }
+
 }
 
 
