@@ -2,13 +2,17 @@ package com.example.bryan.myapplication;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,9 +99,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * @param latLngs the arrayList of coordinates
      */
     public void addMarkersToMap(ArrayList<LatLng> latLngs) {
+        Drawable drawable = ResourcesCompat.getDrawable( getResources(),R.drawable.mapsicon, null);
+        Bitmap b = ((BitmapDrawable)drawable).getBitmap();
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 50, 50, false);
         for (LatLng latLng : latLngs) {
             Marker marker = mMap.addMarker(new MarkerOptions().position(latLng)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.mapsicon)));
+                    .icon(BitmapDescriptorFactory.fromBitmap(bitmapResized)));
             marker.setVisible(true);
         }
     }
@@ -117,10 +124,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .position(latLng, 100)
                     .transparency(1)).setVisible(true);}**/
 
-        // Adds a ground overlay with 50% transparency
+        Drawable drawable = ResourcesCompat.getDrawable( getResources(),R.drawable.bikeicon, null);
+        Bitmap b = ((BitmapDrawable)drawable).getBitmap();
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 60, 60, false);
+        //new BitmapDrawable(getResources(), bitmapResized);
         for (LatLng latLng : latLngs) {
             Marker marker = mMap.addMarker(new MarkerOptions().position(latLng)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.bikeicon)));
+                    .icon(BitmapDescriptorFactory.fromBitmap(bitmapResized)));
             marker.setVisible(true);
         }
     }
@@ -130,12 +140,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * @param latLngs the ArrayList of coordinates
      */
     public void addFoodMarkersToMap(ArrayList<LatLng> latLngs)  {
-
+        Drawable drawable = ResourcesCompat.getDrawable( getResources(),R.drawable.food, null);
+        Bitmap b = ((BitmapDrawable)drawable).getBitmap();
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 70, 70, false);
 
         for (int i=0;i<latLngs.size();i++) {
             Marker marker = mMap.addMarker(new MarkerOptions().position(latLngs.get(i))
                     .title(diningKeys.get(i))
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.food)));
+                    .icon(BitmapDescriptorFactory.fromBitmap(bitmapResized)));
             marker.setVisible(true);
         }
     }
@@ -150,6 +162,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    /**
+     * Closes popups if nay are open
+     */
     public void closePopUps(){
         if(directions!=null)directions.popupWindow1.dismiss();
         if(bus!=null)bus.popupWindow1.dismiss();
@@ -244,6 +259,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (!v.isSelected()) {
                     v.setSelected(true);
                     poi = new POI(this,buildings);
+                    addMarkersToMap(buildingCoords);
                 } else {
                     v.setSelected(false);
                     poi.popupWindow1.dismiss();
