@@ -137,13 +137,13 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                     .position(latLng, 100)
                     .transparency(1)).setVisible(true);}**/
 
-        Drawable drawable = ResourcesCompat.getDrawable( getResources(),R.drawable.bikeicon, null);
-        Bitmap b = ((BitmapDrawable)drawable).getBitmap();
-        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 60, 60, false);
+//        Drawable drawable = ResourcesCompat.getDrawable( getResources(),R.drawable.bikeicon, null);
+//        Bitmap b = ((BitmapDrawable)drawable).getBitmap();
+//        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 60, 60, false);
         //new BitmapDrawable(getResources(), bitmapResized);
         for (LatLng latLng : latLngs) {
             Marker marker = mMap.addMarker(new MarkerOptions().position(latLng)
-                    .icon(BitmapDescriptorFactory.fromBitmap(bitmapResized)));
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.bikeicon)));
             marker.setVisible(true);
         }
     }
@@ -153,14 +153,14 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
      * @param latLngs the ArrayList of coordinates
      */
     public void addFoodMarkersToMap(ArrayList<LatLng> latLngs)  {
-        Drawable drawable = ResourcesCompat.getDrawable( getResources(),R.drawable.food, null);
-        Bitmap b = ((BitmapDrawable)drawable).getBitmap();
-        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 70, 70, false);
+//        Drawable drawable = ResourcesCompat.getDrawable( getResources(),R.drawable.food, null);
+//        Bitmap b = ((BitmapDrawable)drawable).getBitmap();
+//        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 70, 70, false);
 
         for (int i=0;i<latLngs.size();i++) {
             Marker marker = mMap.addMarker(new MarkerOptions().position(latLngs.get(i))
                     .title(diningKeys.get(i))
-                    .icon(BitmapDescriptorFactory.fromBitmap(bitmapResized)));
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.food)));
             marker.setVisible(true);
         }
     }
