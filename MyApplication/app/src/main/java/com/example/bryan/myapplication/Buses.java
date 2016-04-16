@@ -109,6 +109,7 @@ public class Buses {
                 // TODO Auto-generated method stub
                 busButton.setSelected(false);
                 popupWindow1.dismiss();
+
             }
         });
         Button goButton = (Button) popupView1.findViewById(R.id.go); //go button

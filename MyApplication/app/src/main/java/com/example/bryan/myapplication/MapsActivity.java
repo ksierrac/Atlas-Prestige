@@ -213,6 +213,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                     addMarkersToMap(buildingCoords, R.drawable.mapsicon, 50, 50); //display building markers
                 }
 
+
                 break;
 
 
