@@ -200,14 +200,24 @@ public class Directions {
     private ArrayList<LatLng> shortestEntrancePath (ArrayList<LatLng> startList, ArrayList<LatLng> endList)
     {
         ArrayList<LatLng> chosenEntrances= new ArrayList<LatLng>();
+        ArrayList<LatLng> startListCopy = new ArrayList<LatLng>();
+        ArrayList<LatLng> endListCopy = new ArrayList<LatLng>();
+
+        for (int i= 1; i <startList.size(); i++)
+        {
+            startListCopy.add(startList.get(i));
+        }
+        for (int i= 1; i <endList.size(); i++)
+        {
+            endListCopy.add(endList.get(i));
+        }
         float[] results = new float[1];
         results[0] = 999999999;
         float min = 999999999;
-        startList.remove(0);
-        endList.remove(0);
-        for (LatLng locRecorded : startList)
+
+        for (LatLng locRecorded : startListCopy)
         {
-            for (LatLng locRecorded2 : endList)
+            for (LatLng locRecorded2 : endListCopy)
             {
                 Location.distanceBetween(locRecorded.latitude,locRecorded.longitude,locRecorded2.latitude,locRecorded2.longitude,results);
                 if(results[0] < min)
@@ -278,11 +288,10 @@ public class Directions {
         @Override
         public void onFinish() {
 
-
-            if(++currentPt < markers.size()){
-                float targetBearing = bearingBetweenLatLngs( mapScreen.mMap.getCameraPosition().target, markers.get(currentPt).getPosition());
-                for (Marker marker: markers)
-                {
+        try {
+            if (++currentPt < markers.size()) {
+                float targetBearing = bearingBetweenLatLngs(mapScreen.mMap.getCameraPosition().target, markers.get(currentPt).getPosition());
+                for (Marker marker : markers) {
                     marker.setVisible(false);
                 }
                 LatLng targetLatLng = markers.get(currentPt).getPosition();
@@ -299,21 +308,20 @@ public class Directions {
                                 .target(targetLatLng)
                                 .tilt(0)
                                 .bearing(0)
-                                .zoom( mapScreen.mMap.getCameraPosition().zoom)
+                                .zoom(mapScreen.mMap.getCameraPosition().zoom)
                                 .build();
 
                 mapScreen.mMap.animateCamera(
                         CameraUpdateFactory.newCameraPosition(cameraPosition),
                         ANIMATE_SPEED,
-                        currentPt==markers.size()-1 ? FinalCancelableCallback : MyCancelableCallback);
+                        currentPt == markers.size() - 1 ? FinalCancelableCallback : MyCancelableCallback);
 
 //						googleMap.moveCamera(
 //								CameraUpdateFactory.newCameraPosition(cameraPosition));
 
 
-
             }
-
+        } catch (IllegalArgumentException e){};
         }
 
     };

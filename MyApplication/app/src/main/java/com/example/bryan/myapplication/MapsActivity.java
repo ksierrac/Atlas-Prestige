@@ -116,7 +116,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         for (int i=0;i<latLngs.size();i++) {
             Marker marker = mMap.addMarker(new MarkerOptions().position(latLngs.get(i))
                     .title(buildingNames.get(i))
-
+                    .snippet("info")
                     .icon(BitmapDescriptorFactory.fromBitmap(bitmapResized)));
             marker.setVisible(true);
         }
@@ -143,7 +143,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         //new BitmapDrawable(getResources(), bitmapResized);
         for (LatLng latLng : latLngs) {
             Marker marker = mMap.addMarker(new MarkerOptions().position(latLng)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.bikeicon)));
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.bikeicon))
+                    .snippet(""));
             marker.setVisible(true);
         }
     }
@@ -160,6 +161,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         for (int i=0;i<latLngs.size();i++) {
             Marker marker = mMap.addMarker(new MarkerOptions().position(latLngs.get(i))
                     .title(diningKeys.get(i))
+                    .snippet("")
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.food)));
             marker.setVisible(true);
         }
@@ -377,42 +379,40 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        /**if (marker.getSnippet() == null) {
-            marker.setSnippet("here");
-            mMap.moveCamera(CameraUpdateFactory.zoomIn());
+        if (marker.getSnippet()!= null && marker.getSnippet().equals("info")) {
+            final Dialog d = new Dialog(MapsActivity.this);
+            d.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+            d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+            d.setContentView(R.layout.content);
+
+            String resourceName = marker.getTitle().replaceAll("\\s", "").toLowerCase();
+            int resourceID = this.getResources().getIdentifier(resourceName, "drawable",this.getPackageName());
+
+
+            ImageView image = (ImageView)d.findViewById(R.id.image);
+            image.setImageResource(resourceID);
+
+            TextView name = (TextView) d.findViewById(R.id.name);
+            name.setText(marker.getTitle());
+
+            TextView content = (TextView)d.findViewById(R.id.info);
+            String test = info.buildingInfo.get(marker.getTitle()).replaceAll("\\\\n", "%");
+            String newString = "";
+            String ch;
+            for(int i=0;i<test.length();i++){
+                ch = ""+test.charAt(i);
+                if("%".equals(ch)){newString += "\n";}
+                else{newString += ch;}
+            }
+            System.out.println(newString);
+            content.setText(newString);
+
+            d.show();
             return true;
-        }**/
-
-        final Dialog d = new Dialog(MapsActivity.this);
-        d.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-        d.setContentView(R.layout.content);
-
-        String resourceName = marker.getTitle().replaceAll("\\s", "").toLowerCase();
-        int resourceID = this.getResources().getIdentifier(resourceName, "drawable",this.getPackageName());
-
-
-        ImageView image = (ImageView)d.findViewById(R.id.image);
-        image.setImageResource(resourceID);
-
-        TextView name = (TextView) d.findViewById(R.id.name);
-        name.setText(marker.getTitle());
-
-        TextView content = (TextView)d.findViewById(R.id.info);
-        String test = info.buildingInfo.get(marker.getTitle()).replaceAll("\\\\n", "%");
-        String newString = "";
-        String ch;
-        for(int i=0;i<test.length();i++){
-            ch = ""+test.charAt(i);
-            if("%".equals(ch)){newString += "\n\u2022";}
-            else{newString += ch;}
         }
-        System.out.println(newString);
-        content.setText(newString);
 
-        d.show();
-        return true;
+        return false;
 
     }
 }
