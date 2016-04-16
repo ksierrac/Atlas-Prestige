@@ -120,10 +120,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         for (int i=0;i<latLngs.size();i++) {
             Marker marker = mMap.addMarker(new MarkerOptions().position(latLngs.get(i))
                     .title(buildingNames.get(i))
-<<<<<<< HEAD
-=======
+
                     .snippet("info")
->>>>>>> bde09478fd06ab47676bb4d3655a094290d513bb
+
                     .icon(BitmapDescriptorFactory.fromBitmap(bitmapResized)));
             marker.setVisible(true);
         }
