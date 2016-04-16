@@ -90,6 +90,7 @@ public class Directions {
                 // TODO Auto-generated method stub
                 dirButton.setSelected(false);
                 popupWindow1.dismiss();
+                mapScreen.addMarkersToMap(mapScreen.buildingCoords, R.drawable.mapsicon, 50, 50);
             }
         });
         Button goButton = (Button) popupView1.findViewById(R.id.go); //go button

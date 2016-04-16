@@ -73,6 +73,7 @@ public class POI {
                 // TODO Auto-generated method stub
                 poiButton.setSelected(false);
                 popupWindow1.dismiss();
+                mapScreen.addMarkersToMap(mapScreen.buildingCoords, R.drawable.mapsicon, 50, 50);
                 System.out.println("selected=false");
             }
         });

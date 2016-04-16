@@ -109,6 +109,7 @@ public class Buses {
                 // TODO Auto-generated method stub
                 busButton.setSelected(false);
                 popupWindow1.dismiss();
+                mapScreen.addMarkersToMap(mapScreen.buildingCoords, R.drawable.mapsicon, 50, 50);
 
             }
         });
