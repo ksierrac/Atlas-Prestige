@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Set;
 
 /**
@@ -50,11 +51,10 @@ public class POI {
         View popupView1 = layoutInflater1.inflate(R.layout.poipopup, null);
 
         final Spinner busRouteSpinner = (Spinner) popupView1.findViewById(R.id.POISpinner); //initiate start spinner
-        //String[] busRouteNames = new String[]{"Building1", "Building2", "Building3"}; //bus routes
         final BuildingData data= buildings;
 
         String[] buildingNames = data.buildingCoordinates.keySet().toArray(new String[data.buildingCoordinates.keySet().size()]);
-
+        Arrays.sort(buildingNames);
 
         ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(mapScreen.getApplicationContext(), R.layout.spinnerlayout, buildingNames); //adapter required for the spinner
         busRouteSpinner.setAdapter(adapter1); //set adapter
@@ -86,9 +86,12 @@ public class POI {
                 System.out.println("selected=false");
                 LatLng location = data.buildingCoordinates.get(busRouteSpinner.getSelectedItem()).get(0);
                 mapScreen.mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
-                mapScreen.mMap.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
+                mapScreen.mMap.animateCamera(CameraUpdateFactory.zoomTo(17), 2000, null);
+
+
                 mapScreen.mMap.addMarker(new MarkerOptions().position(location)
-                        .icon(BitmapDescriptorFactory.defaultMarker()).title(busRouteSpinner.getSelectedItem().toString()));
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.poiicon))
+                        .title(busRouteSpinner.getSelectedItem().toString()));
 
             }
         });
