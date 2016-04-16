@@ -99,7 +99,9 @@ public class Directions {
                 dirButton.setSelected(false);
                 popupWindow1.dismiss();
                 ArrayList <LatLng> chosenEntrances = new ArrayList<LatLng>();
+                for(String key : data.buildingCoordinates.keySet()){System.out.println(key);}
                 chosenEntrances = shortestEntrancePath(data.buildingCoordinates.get(startSpinner.getSelectedItem().toString()), data.buildingCoordinates.get(endSpinner.getSelectedItem().toString()));
+                for(LatLng l:chosenEntrances){System.out.println(l.latitude);}
                 LatLng startDestination = chosenEntrances.get(0);
                 LatLng endDestination = chosenEntrances.get(1);
                 System.out.println(startDestination);
@@ -275,6 +277,7 @@ public class Directions {
 
         @Override
         public void onFinish() {
+
 
             if(++currentPt < markers.size()){
                 float targetBearing = bearingBetweenLatLngs( mapScreen.mMap.getCameraPosition().target, markers.get(currentPt).getPosition());

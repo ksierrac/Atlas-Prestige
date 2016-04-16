@@ -1,11 +1,13 @@
 package com.example.bryan.myapplication;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
@@ -16,9 +18,11 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 
@@ -38,6 +42,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -55,7 +60,7 @@ import java.util.Vector;
 /**
  * Main Activity for application.
  */
-public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWindowClickListener, OnMapReadyCallback{
+public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback{
 
     public GoogleMap mMap;
     BuildingData buildings;
@@ -72,9 +77,11 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
     InputStream bikesIs;
     InputStream busesIs;
     InputStream foodIs;
+    InputStream infoIs;
     int [] buttons;
     Directions directions;
     POI poi;
+    BuildingInfo info;
 
     @Override
     /**
@@ -109,6 +116,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
         for (int i=0;i<latLngs.size();i++) {
             Marker marker = mMap.addMarker(new MarkerOptions().position(latLngs.get(i))
                     .title(buildingNames.get(i))
+                    .snippet("blah blah")
                     .icon(BitmapDescriptorFactory.fromBitmap(bitmapResized)));
             marker.setVisible(true);
         }
@@ -171,7 +179,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
      * Closes popups if nay are open
      */
     public void closePopUps(){
-        if(directions!=null){directions.popupWindow1.dismiss(); directions.MyCancelableCallback.onCancel();}
+        if(directions!=null){directions.popupWindow1.dismiss(); }
         if(bus!=null)bus.popupWindow1.dismiss();
         if(poi!=null)poi.popupWindow1.dismiss();
     }
@@ -317,6 +325,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
             bikesIs = getAssets().open("bikeracks");
             busesIs = getAssets().open("busRoutes.txt");
             foodIs = getAssets().open("dininglocations.txt");
+            infoIs = getAssets().open("buildinginfo");
 
             // create a list with center coordinates of buildings and add building markers
             buildings = new BuildingData(is);
@@ -351,11 +360,13 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
 
             //create bus routes hashmap
             busData = new BusRouteData(busesIs);
+            info = new BuildingInfo(infoIs);
+
         }
         catch(IOException e){
 
         };
-        mMap.setOnInfoWindowClickListener(this);
+        mMap.setOnMarkerClickListener(this);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(CIS));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
         mMap.getUiSettings().setZoomControlsEnabled(false);
@@ -365,12 +376,45 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnInfoWi
     }
 
     @Override
-    public void onInfoWindowClick(Marker marker) {
-        Toast.makeText(this, marker.getTitle()+" blah blah blah",
-                Toast.LENGTH_LONG).show();
-        System.out.println("Marker infoWindow");
-    }
+    public boolean onMarkerClick(Marker marker) {
+        if (marker.getSnippet() == null) {
+            marker.setSnippet("here");
+            mMap.moveCamera(CameraUpdateFactory.zoomIn());
+            return true;
+        }
 
+        final Dialog d = new Dialog(MapsActivity.this);
+        d.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        d.setContentView(R.layout.content);
+
+        String resourceName = marker.getTitle().replaceAll("\\s", "").toLowerCase();
+        int resourceID = this.getResources().getIdentifier(resourceName, "drawable",this.getPackageName());
+
+
+        ImageView image = (ImageView)d.findViewById(R.id.image);
+        image.setImageResource(resourceID);
+
+        TextView name = (TextView) d.findViewById(R.id.name);
+        name.setText(marker.getTitle());
+
+        TextView content = (TextView)d.findViewById(R.id.info);
+        String test = info.buildingInfo.get(marker.getTitle()).replaceAll("\\\\n", "%");
+        String newString = "";
+        String ch;
+        for(int i=0;i<test.length();i++){
+            ch = ""+test.charAt(i);
+            if("%".equals(ch)){newString += "\n\u2022";}
+            else{newString += ch;}
+        }
+        System.out.println(newString);
+        content.setText(newString);
+
+        d.show();
+        return true;
+
+    }
 }
 
 
