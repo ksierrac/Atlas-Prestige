@@ -54,7 +54,6 @@
                 android:layout_gravity="center"
                 android:textColor="#0b1d50"
                 android:background="#c3e9fbff"
-                android:textSize="@dimen/abc_text_size_large_material"
                 android:layout_marginRight="2dp"
                 android:layout_marginTop="2dp"
                 android:singleLine="false" />
@@ -68,7 +67,6 @@
                 android:layout_gravity="center"
                 android:textColor="#0b1d50"
                 android:background="#c3e9fbff"
-                android:textSize="@dimen/abc_text_size_large_material"
                 android:layout_marginLeft="2dp"
                 android:layout_marginTop="2dp" />
 
