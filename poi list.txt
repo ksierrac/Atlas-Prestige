@@ -1,0 +1,30 @@
+Financial Aid Office	:	34.225215 -77.875228
+Student Accounts	:	34.225078 -77.875163
+Parking Office	:	34.225308 -77.875721
+OneCard Office	:	34.224940 -77.875335
+
+Post Office	:	34.225637 -77.873098
+Binaries	:	34.225885 -77.873398
+LGBTQIA	:	34.225672 -77.873549
+
+Bookstore	:	34.225668 -77.874332
+CAIC	:	34.225761 -77.874133
+Centro Hispano	:	34.225694 -77.874165
+Career Center	:	34.225903 -77.874241
+
+Randall Library	:	34.227557 -77.873833
+iPrint Business Center	:	34.227690 -77.874632
+Technology Assistance Center	:	34.227961 -77.874654
+
+UNCW Police Station	:	34.219161 -77.868297
+
+Student Recreation Center	:	34.222975 -77.867251
+
+Wagoner Dining Hall	:	34.223352 -77.865110
+
+Abrons Student Health Center	:	34.226608 -77.875684
+University Learning Center	:	34.226706 -77.875442
+
+Trask Coliseum	:	34.224985 -77.878296
+
+Amphitheater	:	34.226604 -77.873473
