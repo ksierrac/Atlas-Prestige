@@ -116,7 +116,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         for (int i=0;i<latLngs.size();i++) {
             Marker marker = mMap.addMarker(new MarkerOptions().position(latLngs.get(i))
                     .title(buildingNames.get(i))
-                    .snippet("blah blah")
+
                     .icon(BitmapDescriptorFactory.fromBitmap(bitmapResized)));
             marker.setVisible(true);
         }
@@ -377,11 +377,11 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        if (marker.getSnippet() == null) {
+        /**if (marker.getSnippet() == null) {
             marker.setSnippet("here");
             mMap.moveCamera(CameraUpdateFactory.zoomIn());
             return true;
-        }
+        }**/
 
         final Dialog d = new Dialog(MapsActivity.this);
         d.requestWindowFeature(Window.FEATURE_NO_TITLE);
