@@ -65,11 +65,14 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     public GoogleMap mMap;
     BuildingData buildings;
     BuildingData dining;
+    BuildingData poiData;
+    ArrayList <LatLng> poiCoords;
     ArrayList <LatLng> diningCoords;
     ArrayList <LatLng> buildingCoords;
     ArrayList <String> diningKeys;
     ArrayList<LatLng> bikeCoords;
     ArrayList <String> buildingNames;
+    ArrayList <String> poiNames;
     BusRouteData busData;
     Boolean busButton = false;
     Buses bus;
@@ -78,6 +81,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     InputStream busesIs;
     InputStream foodIs;
     InputStream infoIs;
+    InputStream poiIs;
     int [] buttons;
     Directions directions;
     POI poi;
@@ -116,7 +120,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         for (int i=0;i<latLngs.size();i++) {
             Marker marker = mMap.addMarker(new MarkerOptions().position(latLngs.get(i))
                     .title(buildingNames.get(i))
-
                     .icon(BitmapDescriptorFactory.fromBitmap(bitmapResized)));
             marker.setVisible(true);
         }
@@ -164,6 +167,16 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             marker.setVisible(true);
         }
     }
+
+//    public void addPOIMarkersToMap(ArrayList<LatLng> latLngs)  {
+//
+//        for (int i=0;i<latLngs.size();i++) {
+//            Marker marker = mMap.addMarker(new MarkerOptions().position(latLngs.get(i))
+//                    .title(poiNames.get(i))
+//                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.poiicon)));
+//            marker.setVisible(true);
+//        }
+//    }
 
     /** deselectes all of the buttons except the one that's been pressed
      *
@@ -272,8 +285,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
                 if (!v.isSelected()) {
                     v.setSelected(true);
-                    poi = new POI(this,buildings);
-                    addMarkersToMap(buildingCoords, R.drawable.mapsicon, 50, 50);
+                    poi = new POI(this,poiData);
+//                    addPOIMarkersToMap(poiCoords);
                 } else {
                     v.setSelected(false);
                     poi.popupWindow1.dismiss();
@@ -326,6 +339,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             busesIs = getAssets().open("busRoutes.txt");
             foodIs = getAssets().open("dininglocations.txt");
             infoIs = getAssets().open("buildinginfo");
+            poiIs = getAssets().open("poi list.txt");
 
             // create a list with center coordinates of buildings and add building markers
             buildings = new BuildingData(is);
@@ -361,6 +375,17 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             //create bus routes hashmap
             busData = new BusRouteData(busesIs);
             info = new BuildingInfo(infoIs);
+
+            poiData = new BuildingData(poiIs);
+
+            poiCoords= new ArrayList<>();
+            poiNames = new ArrayList<String>();
+            for(String test: poiData.buildingCoordinates.keySet())
+            {
+                poiCoords.add(poiData.buildingCoordinates.get(test).get(0));
+                poiNames.add(test);
+            }
+
 
         }
         catch(IOException e){

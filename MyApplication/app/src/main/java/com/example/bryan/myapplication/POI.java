@@ -87,8 +87,12 @@ public class POI {
                 LatLng location = data.buildingCoordinates.get(busRouteSpinner.getSelectedItem()).get(0);
                 mapScreen.mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
                 mapScreen.mMap.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
+//                mapScreen.mMap.addMarker(new MarkerOptions().position(location)
+//                        .icon(BitmapDescriptorFactory.defaultMarker()).title(busRouteSpinner.getSelectedItem().toString()));
+
                 mapScreen.mMap.addMarker(new MarkerOptions().position(location)
-                        .icon(BitmapDescriptorFactory.defaultMarker()).title(busRouteSpinner.getSelectedItem().toString()));
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.poiicon))
+                        .title(busRouteSpinner.getSelectedItem().toString()));
 
             }
         });
