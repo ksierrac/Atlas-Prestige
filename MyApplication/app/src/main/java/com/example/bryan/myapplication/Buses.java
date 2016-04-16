@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -125,8 +126,8 @@ public class Buses {
                 ArrayList<LatLng> busCoords = data.busRoutes.get(busRouteSpinner.getSelectedItem());
                  busMarker = mapScreen.mMap.addMarker(new MarkerOptions()
                         .position(new LatLng(0, 0))
-                        .title("GREEN BUS")
-                        .snippet("brings bryan to school some days")
+                        .title(busRouteSpinner.getSelectedItem().toString() + " Bus")
+                        .snippet("")
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
 
                 int color = Color.BLACK;
@@ -222,7 +223,11 @@ public class Buses {
             }
 
 
-            busMarker.setPosition(new LatLng(latitude,longitude));
+            busMarker.setPosition(new LatLng(latitude, longitude));
+            if (busMarker.getPosition().latitude != 0)
+            {
+                mapScreen.mMap.moveCamera(CameraUpdateFactory.newLatLng(busMarker.getPosition()));
+            }
             System.out.println(fullString);
 
             reader.close();
