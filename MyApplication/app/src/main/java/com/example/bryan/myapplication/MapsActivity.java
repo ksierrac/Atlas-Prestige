@@ -133,23 +133,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
      * @param latLngs the ArrayList of coordinates
      */
     public void addBikeMarkersToMap(ArrayList<LatLng> latLngs) {
-        /**GroundOverlay groundOverlay = mMap.addGroundOverlay(new GroundOverlayOptions()
-                .image(BitmapDescriptorFactory.fromResource(R.drawable.bikeicon))
-                .position(new LatLng(34.226107, -77.871775), 8600f, 6500f)
-                .transparency(1));
-        for (LatLng latLng : latLngs) {
-            mMap.addGroundOverlay(new GroundOverlayOptions()
-                    .image(BitmapDescriptorFactory.fromResource(R.drawable.bikeicon))
-                    .position(latLng, 100)
-                    .transparency(1)).setVisible(true);}**/
-
-//        Drawable drawable = ResourcesCompat.getDrawable( getResources(),R.drawable.bikeicon, null);
-//        Bitmap b = ((BitmapDrawable)drawable).getBitmap();
-//        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 60, 60, false);
-        //new BitmapDrawable(getResources(), bitmapResized);
         for (LatLng latLng : latLngs) {
             Marker marker = mMap.addMarker(new MarkerOptions().position(latLng)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.bikeicon))
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.bikeiconsmall))
                     .snippet(""));
             marker.setVisible(true);
         }
@@ -160,9 +146,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
      * @param latLngs the ArrayList of coordinates
      */
     public void addFoodMarkersToMap(ArrayList<LatLng> latLngs)  {
-//        Drawable drawable = ResourcesCompat.getDrawable( getResources(),R.drawable.food, null);
-//        Bitmap b = ((BitmapDrawable)drawable).getBitmap();
-//        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 70, 70, false);
 
         for (int i=0;i<latLngs.size();i++) {
             Marker marker = mMap.addMarker(new MarkerOptions().position(latLngs.get(i))
@@ -173,15 +156,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         }
     }
 
-//    public void addPOIMarkersToMap(ArrayList<LatLng> latLngs)  {
-//
-//        for (int i=0;i<latLngs.size();i++) {
-//            Marker marker = mMap.addMarker(new MarkerOptions().position(latLngs.get(i))
-//                    .title(poiNames.get(i))
-//                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.poiicon)));
-//            marker.setVisible(true);
-//        }
-//    }
+
 
     /** deselectes all of the buttons except the one that's been pressed
      *
@@ -292,7 +267,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                 if (!v.isSelected()) {
                     v.setSelected(true);
                     poi = new POI(this,poiData);
-//                    addPOIMarkersToMap(poiCoords);
                 } else {
                     v.setSelected(false);
                     poi.popupWindow1.dismiss();
