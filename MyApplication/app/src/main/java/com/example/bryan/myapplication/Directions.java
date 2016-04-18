@@ -1,7 +1,6 @@
 package com.example.bryan.myapplication;
 
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,21 +12,17 @@ import android.widget.PopupWindow;
 import android.widget.Spinner;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.GoogleMap.CancelableCallback;
-import android.view.animation.Interpolator;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
@@ -66,7 +61,6 @@ public class Directions {
 
         final Spinner startSpinner = (Spinner) popupView1.findViewById(R.id.startSpinner); //initiate start spinner
 
-        //final BuildingData data= new BuildingData(is);
         final BuildingData data = buildings;
 
         String[] buildingNames = data.buildingCoordinates.keySet().toArray(new String[data.buildingCoordinates.keySet().size()]);
@@ -101,9 +95,7 @@ public class Directions {
                 dirButton.setSelected(false);
                 popupWindow1.dismiss();
                 ArrayList <LatLng> chosenEntrances = new ArrayList<LatLng>();
-                for(String key : data.buildingCoordinates.keySet()){System.out.println(key);}
                 chosenEntrances = shortestEntrancePath(data.buildingCoordinates.get(startSpinner.getSelectedItem().toString()), data.buildingCoordinates.get(endSpinner.getSelectedItem().toString()));
-                for(LatLng l:chosenEntrances){System.out.println(l.latitude);}
                 LatLng startDestination = chosenEntrances.get(0);
                 LatLng endDestination = chosenEntrances.get(1);
                 System.out.println(startDestination);

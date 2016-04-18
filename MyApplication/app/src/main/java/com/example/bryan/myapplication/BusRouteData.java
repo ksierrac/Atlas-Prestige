@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 /**
- * BusRoute class
+ * Creates a hashmap containg bus route names as keys and array lists with bus route coordinates as values
  */
 public class BusRouteData {
 
@@ -21,11 +21,10 @@ public class BusRouteData {
      * @throws IOException
      */
     public BusRouteData( InputStream is) throws IOException {
-
+        // process the file
         Scanner scan = new Scanner(is);
-
         while (scan.hasNext()) {
-
+            //extract the bus route name to use as a key
             String key = "";
             String next = scan.next();
             while (!next.equals(":")) {
@@ -33,13 +32,14 @@ public class BusRouteData {
                 System.out.println(key);
                 next = scan.next();
             }
+            //create array list with bus route coordinates
             ArrayList<LatLng> values = new ArrayList<LatLng>();
             while (scan.hasNextDouble()) {
                 LatLng coord = new LatLng(scan.nextDouble(),scan.nextDouble());
                 values.add(coord);
             }
-            key = key.trim();
-            busRoutes.put(key, values);
+            key = key.trim(); // trim the key
+            busRoutes.put(key, values); // add the key/value pair to the hashmap
         }
         scan.close();
     }
