@@ -377,7 +377,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             d.setContentView(R.layout.content); //set window layout
 
             //remove spaces and convert marker title to lower case to get the name of the corresponding image
-            String resourceName = marker.getTitle().replaceAll("\\s", "").toLowerCase();
+            String resourceName = marker.getTitle().replaceAll("\\s", "").toLowerCase().replaceAll("-", "");
             int resourceID = this.getResources().getIdentifier(resourceName, "drawable",this.getPackageName());
 
             //building image
