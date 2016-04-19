@@ -17,60 +17,55 @@
         android:paddingTop="4dp"
         android:paddingBottom="4dp">
 
-    <ImageButton
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:scaleType="fitCenter"
-        android:background="@color/colorPrimaryDark"
-        android:onClick="onButtonClicked"
-        android:id="@+id/directionsButton"
-        android:src="@drawable/button1"
-     />
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:background="@color/colorPrimaryDark"
+            android:onClick="onButtonClicked"
+            android:id="@+id/directionsButton"
+            android:src="@drawable/button1"/>
 
-    <ImageButton
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:scaleType="fitCenter"
-        android:background="@color/colorPrimaryDark"
-        android:onClick="onButtonClicked"
-        android:id="@+id/bikesButton"
-        android:src="@drawable/button2"
-        />
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:background="@color/colorPrimaryDark"
+            android:onClick="onButtonClicked"
+            android:id="@+id/bikesButton"
+            android:src="@drawable/button2" />
 
-    <ImageButton
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:scaleType="fitCenter"
-        android:background="@color/colorPrimaryDark"
-        android:onClick="onButtonClicked"
-        android:id="@+id/busButton"
-        android:src="@drawable/button3"
-        />
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:background="@color/colorPrimaryDark"
+            android:onClick="onButtonClicked"
+            android:id="@+id/busButton"
+            android:src="@drawable/button3" />
 
-    <ImageButton
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:scaleType="fitCenter"
-        android:background="@color/colorPrimaryDark"
-        android:onClick="onButtonClicked"
-        android:id="@+id/foodButton"
-        android:src="@drawable/button4"
-        />
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:background="@color/colorPrimaryDark"
+            android:onClick="onButtonClicked"
+            android:id="@+id/foodButton"
+            android:src="@drawable/button4" />
 
-    <ImageButton
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:scaleType="fitCenter"
-        android:background="@color/colorPrimaryDark"
-        android:onClick="onButtonClicked"
-        android:id="@+id/POIButton"
-        android:src="@drawable/button5"
-        />
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:background="@color/colorPrimaryDark"
+            android:onClick="onButtonClicked"
+            android:id="@+id/POIButton"
+            android:src="@drawable/button5"/>
 
     </LinearLayout>
 
@@ -81,7 +76,5 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context="com.example.bryan.myapplication.MapsActivity"
-
-        />
+        tools:context="com.example.bryan.myapplication.MapsActivity" />
 </LinearLayout>
