@@ -52,6 +52,7 @@ public class Directions {
     public Directions(MapsActivity map, BuildingData buildings) throws IOException{
 
         mapScreen = map;
+
         final ImageButton dirButton = (ImageButton) mapScreen.findViewById(R.id.directionsButton); // setup button function for directions
         LayoutInflater layoutInflater1 //popup behavior
                 = (LayoutInflater) mapScreen.getBaseContext()
@@ -61,10 +62,11 @@ public class Directions {
 
         final Spinner startSpinner = (Spinner) popupView1.findViewById(R.id.startSpinner); //initiate start spinner
 
-        final BuildingData data = buildings;
+        final BuildingData data = buildings; //dictionary access
 
-        String[] buildingNames = data.buildingCoordinates.keySet().toArray(new String[data.buildingCoordinates.keySet().size()]);
-        Arrays.sort(buildingNames);
+
+        String[] buildingNames = data.buildingCoordinates.keySet().toArray(new String[data.buildingCoordinates.keySet().size()]); //takes the keys from dictionary to populate spinner
+        Arrays.sort(buildingNames); //sorts names alphabetically
 
         ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(mapScreen.getApplicationContext(), R.layout.spinnerlayout, buildingNames); //adapter required for the spinner
         startSpinner.setAdapter(adapter1); //set adapter
@@ -94,11 +96,15 @@ public class Directions {
             public void onClick(View v) {
                 dirButton.setSelected(false);
                 popupWindow1.dismiss();
-                ArrayList <LatLng> chosenEntrances = new ArrayList<LatLng>();
+                ArrayList <LatLng> chosenEntrances = new ArrayList<LatLng>(); //set array for final two entrances to get directions to
+
+                //gets the two entrances between two building yields the shortest distance apart
                 chosenEntrances = shortestEntrancePath(data.buildingCoordinates.get(startSpinner.getSelectedItem().toString()), data.buildingCoordinates.get(endSpinner.getSelectedItem().toString()));
+
                 LatLng startDestination = chosenEntrances.get(0);
                 LatLng endDestination = chosenEntrances.get(1);
-                System.out.println(startDestination);
+                //System.out.println(startDestination);
+
                 startBuilding = startSpinner.getSelectedItem().toString();
                 endBuilding =  endSpinner.getSelectedItem().toString();
 
@@ -106,35 +112,38 @@ public class Directions {
                 try {
 
 
-                    // examples of directions url request
+                    //  directions url request
                     URL url = new URL("https://maps.google.com/maps/api/directions/json?origin=" + startDestination.latitude + "," + startDestination.longitude + "&destination=" + endDestination.latitude + "," + endDestination.longitude +"&mode=walking&sensor=false&key=AIzaSyAU5Hq8LlAFjyFwBjEh__17CXR4bbsId40");
-                    System.out.println(url.toString());
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+                    //System.out.println(url.toString());
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream())); //setup reader
                     String line;
                     String test;
                     String testString = "";
 
+                    // while reader has stuff to read, concatenates a string
                     while ((line = reader.readLine()) != null) {
 
                         testString= testString + line;
 
                     }
-                    test = testString.substring(testString.indexOf("overview_polyline"),testString.indexOf("summary")-1);
-                    test = test.substring(test.indexOf("points")+11,test.lastIndexOf('"'));
-                    System.out.println(test);
-                    String test2 = test.replaceAll("\\\\\\\\", "\\\\");
-                    System.out.println(test2);
 
-                    // there is a problem with backslashes.....example kenan auditorium to depaulo hall.... damnit!!!!
-                    ArrayList<LatLng> encoded = decodePoly(test2);
+                    test = testString.substring(testString.indexOf("overview_polyline"),testString.indexOf("summary")-1); //gets the full encoded string for the polyline
 
-                    encoded.add(endDestination);
-                    encoded.add(0,startDestination);
-                    addMarkersToMap(encoded);
-                    startAnimation();
+
+                    test = test.substring(test.indexOf("points")+11,test.lastIndexOf('"')); //gets the full encoded string for the polyline
+                    //System.out.println(test);
+                    String test2 = test.replaceAll("\\\\\\\\", "\\\\"); //need to remove half the \'s since the language automatically adds another one to try and do literal, this is already accounted for in google so it is not needed
+                    //System.out.println(test2);
+
+                    ArrayList<LatLng> encoded = decodePoly(test2); //gets the coordinates based off the encoded strings
+
+                    encoded.add(endDestination); // makes final connection to destination
+                    encoded.add(0,startDestination); //makes final connection to start
+                    addMarkersToMap(encoded); // adds markers to set up animation
+                    startAnimation(); //starts animation
                     //drawing the resulting ArrayList
                     new Routes(encoded, mapScreen, Color.GREEN);
-                    System.out.println(test);
+                   // System.out.println(test);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -245,58 +254,50 @@ public class Directions {
         }
     }
 
-    private float bearingBetweenLatLngs(LatLng begin,LatLng end) {
-        Location beginL= convertLatLngToLocation(begin);
-        Location endL= convertLatLngToLocation(end);
-        return beginL.bearingTo(endL);
-    }
 
-    private Location convertLatLngToLocation(LatLng latLng) {
-        Location loc = new Location("someLoc");
-        loc.setLatitude(latLng.latitude);
-        loc.setLongitude(latLng.longitude);
-        return loc;
-    }
 
+    // able to control finish activities and cancel activities with this
     CancelableCallback MyCancelableCallback = new CancelableCallback(){
 
-        @Override
+        @Override // if user opts out of animation
         public void onCancel() {
             for (Marker marker: markers)
             {
+                //start marker information appears
                 marker.setVisible(false);
                 markers.get(0).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
                 markers.get(0).setVisible(true);
                 markers.get(0).setTitle(startBuilding);
+                markers.get(0).setSnippet("");
 
-
+                //destination marker information appears
                 markers.get(markers.size()-1).setVisible(true);
                 markers.get(markers.size()-1).setTitle(endBuilding);
+                markers.get(markers.size()-1).setSnippet("");
                 markers.get(markers.size()-1).showInfoWindow();
 
             }
-            System.out.println("********** oncancel");
+           // System.out.println("********** oncancel");
         }
 
 
-        @Override
+        @Override //shows the movement
         public void onFinish() {
 
         try {
+            //set all markers invisible
             if (++currentPt < markers.size()) {
-                float targetBearing = bearingBetweenLatLngs(mapScreen.mMap.getCameraPosition().target, markers.get(currentPt).getPosition());
                 for (Marker marker : markers) {
                     marker.setVisible(false);
                 }
+                //sets marker instance visible before moving to next one
                 LatLng targetLatLng = markers.get(currentPt).getPosition();
                 markers.get(currentPt).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-                markers.get(currentPt).setTitle("FOLLOW MEEEEEE");
 
                 markers.get(currentPt).setVisible(true);
-                markers.get(currentPt).showInfoWindow();
 
-                System.out.println(" ------- " + currentPt + " - " + markers.size() + " - " + targetBearing + " - " + targetLatLng);
 
+                //gets camera to focus on route being walked
                 CameraPosition cameraPosition =
                         new CameraPosition.Builder()
                                 .target(targetLatLng)
@@ -322,7 +323,7 @@ public class Directions {
 
     CancelableCallback FinalCancelableCallback = new CancelableCallback() {
 
-        @Override
+        @Override //final motion if animation went all the way through
         public void onFinish() {
             mapScreen.mMap.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
 
@@ -330,10 +331,12 @@ public class Directions {
             //markers.get(0).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.uncw));
             markers.get(0).setVisible(true);
             markers.get(0).setTitle(startBuilding);
+            markers.get(0).setSnippet("");
 
-            markers.get(markers.size()-1).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+            markers.get(markers.size() - 1).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
             markers.get(markers.size()-1).setVisible(true);
             markers.get(markers.size()-1).setTitle(endBuilding);
+            markers.get(markers.size()-1).setSnippet("");
             markers.get(markers.size()-1).showInfoWindow();
 
         }
@@ -344,7 +347,7 @@ public class Directions {
         }
     };
 
-    public void startAnimation() {
+    public void startAnimation() { //starts animation
         mapScreen.mMap.animateCamera(
                 CameraUpdateFactory.zoomTo(17),
                 100,

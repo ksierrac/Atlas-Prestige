@@ -26,7 +26,7 @@ public class Start2Activity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-        }, 5000);
+        }, 3000);
     }
 
 
