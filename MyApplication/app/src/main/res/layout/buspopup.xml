@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<!--Layout of popup box for bus route selection-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,6 +11,7 @@
     android:paddingLeft="50dp"
     android:outlineProvider="paddedBounds">
 
+<!--Outer linear layout displays spinner followed by inner linear layout for buttons-->
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,8 +38,8 @@
                     android:textAlignment="inherit"
                     android:contextClickable="true">
                 </Spinner>
+        <!--Use layout weight to make buttons equal size and aligned horizontally-->
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">

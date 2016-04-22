@@ -12,9 +12,8 @@ import android.widget.EditText;
  */
 public class Start2Activity extends AppCompatActivity {
 
-    @Override
     /**
-     * creates splashscreen and delays into main application screen
+     * Creates splashscreen displaying app logo and delays into main application screen
      */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
