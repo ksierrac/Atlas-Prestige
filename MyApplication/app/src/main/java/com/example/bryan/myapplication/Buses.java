@@ -79,17 +79,12 @@ public class Buses {
             }
         };
 
-
-
          busRouteSpinner = (Spinner) popupView1.findViewById(R.id.busRouteSpinner); //initiate start spinner
-
-
 
         String[] busRouteNames = data.busRoutes.keySet().toArray(new String[data.busRoutes.keySet().size()]); //gets bus route names for spinner
 
         ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(mapScreen.getApplicationContext(), R.layout.spinnerlayout, busRouteNames); //adapter required for the spinner
         busRouteSpinner.setAdapter(adapter1); //set adapter
-
 
         popupWindow1 = new PopupWindow(
                 popupView1,
@@ -104,11 +99,10 @@ public class Buses {
              * when exit button is clicked
              */
             public void onClick(View v) {
-                // TODO Auto-generated method stub
+
                 busButton.setSelected(false);
                 popupWindow1.dismiss(); //get rid of window
                 mapScreen.addMarkersToMap(mapScreen.buildingCoords, R.drawable.mapsicon, 50, 50); //add building markers back
-
             }
         });
         Button goButton = (Button) popupView1.findViewById(R.id.go); //go button
@@ -122,7 +116,6 @@ public class Buses {
                 busButton.setSelected(false);
                 popupWindow1.dismiss();
 
-                System.out.println("test");
                 ArrayList<LatLng> busCoords = data.busRoutes.get(busRouteSpinner.getSelectedItem());
                  busMarker = mapScreen.mMap.addMarker(new MarkerOptions() //add marker, no position yet though
                         .position(new LatLng(0, 0))
@@ -199,8 +192,6 @@ public class Buses {
      */
     private  void updateMap(MapsActivity screen)
     {
-
-        System.out.println("worked");
 
         try {
 

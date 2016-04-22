@@ -46,7 +46,6 @@ public class Routes {
             //adds polyline
             mapScreen.mMap.addPolyline(options);
 
-
         }
 
     }
