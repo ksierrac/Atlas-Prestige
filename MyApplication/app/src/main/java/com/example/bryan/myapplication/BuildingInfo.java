@@ -1,16 +1,12 @@
 package com.example.bryan.myapplication;
 
-
-import com.google.android.gms.maps.model.LatLng;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
 /**
- * Created by Vika on 4/16/2016.
+ * Construct hashmap storing building names and data
  */
 public class BuildingInfo {
     public HashMap<String, String> buildingInfo = new HashMap<String, String>();
@@ -23,23 +19,26 @@ public class BuildingInfo {
     public BuildingInfo( InputStream is) throws IOException {
 
         Scanner scan = new Scanner(is);
+
+        //Parse text file to assign building names as keys, using ":" as an endpoint
         while (scan.hasNextLine()) {
             String line = scan.nextLine();
-            //System.out.println(line);
             Scanner in = new Scanner(line);
             String key = "";
             String next = in.next();
             while (!next.equals(":")) {
                 key += next + " ";
-                //System.out.println(key);
                 next = in.next();
             }
+
+        //All information after ":" is building information used as hashmap values
             String info = "";
             while (in.hasNext()) {
                 info += in.next()+" ";
             }
             key = key.trim();
 
+        //Enter building name/info pair into the hashmap
             buildingInfo.put(key, info);
 
         }

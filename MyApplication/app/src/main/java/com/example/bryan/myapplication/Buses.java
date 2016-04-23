@@ -1,7 +1,7 @@
 package com.example.bryan.myapplication;
 
 import android.graphics.Color;
-import android.net.wifi.p2p.WifiP2pManager;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +19,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -54,7 +52,6 @@ public class Buses {
 
     {
         data= busData;
-
         mapScreen = map;
 
         final ImageButton busButton = (ImageButton) mapScreen.findViewById(R.id.busButton); // setup button function for directions
@@ -63,9 +60,10 @@ public class Buses {
                 .getSystemService(mapScreen.LAYOUT_INFLATER_SERVICE);
         final View popupView1 = layoutInflater1.inflate(R.layout.buspopup, null);
 
-        mainTimer = new Timer();
+        mainTimer = new Timer(); //timer
 
-        final TimerTask timerTask;
+        final TimerTask timerTask; //task for timer
+        // run the update map function every 30 seconds
         timerTask = new TimerTask() {
 
             public void run() {
@@ -81,17 +79,12 @@ public class Buses {
             }
         };
 
-
-
          busRouteSpinner = (Spinner) popupView1.findViewById(R.id.busRouteSpinner); //initiate start spinner
 
-
-
-        String[] busRouteNames = data.busRoutes.keySet().toArray(new String[data.busRoutes.keySet().size()]);
+        String[] busRouteNames = data.busRoutes.keySet().toArray(new String[data.busRoutes.keySet().size()]); //gets bus route names for spinner
 
         ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(mapScreen.getApplicationContext(), R.layout.spinnerlayout, busRouteNames); //adapter required for the spinner
         busRouteSpinner.setAdapter(adapter1); //set adapter
-
 
         popupWindow1 = new PopupWindow(
                 popupView1,
@@ -106,11 +99,10 @@ public class Buses {
              * when exit button is clicked
              */
             public void onClick(View v) {
-                // TODO Auto-generated method stub
-                busButton.setSelected(false);
-                popupWindow1.dismiss();
-                mapScreen.addMarkersToMap(mapScreen.buildingCoords, R.drawable.mapsicon, 50, 50);
 
+                busButton.setSelected(false);
+                popupWindow1.dismiss(); //get rid of window
+                mapScreen.addMarkersToMap(mapScreen.buildingCoords, R.drawable.mapsicon, 50, 50); //add building markers back
             }
         });
         Button goButton = (Button) popupView1.findViewById(R.id.go); //go button
@@ -124,16 +116,16 @@ public class Buses {
                 busButton.setSelected(false);
                 popupWindow1.dismiss();
 
-                System.out.println("test");
                 ArrayList<LatLng> busCoords = data.busRoutes.get(busRouteSpinner.getSelectedItem());
-                 busMarker = mapScreen.mMap.addMarker(new MarkerOptions()
+                 busMarker = mapScreen.mMap.addMarker(new MarkerOptions() //add marker, no position yet though
                         .position(new LatLng(0, 0))
-                        .title(busRouteSpinner.getSelectedItem().toString() + " Bus")
+                        .title(busRouteSpinner.getSelectedItem().toString() + " Bus") //bus name
                         .snippet("")
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
 
                 int color = Color.BLACK;
 
+                //get line color and URL for chosen bus
                 try {
                     //righthook.js -BRYAN
                     if (busRouteSpinner.getSelectedItem().equals("Green")) {
@@ -182,10 +174,10 @@ public class Buses {
                 catch (MalformedURLException e){};
 
 
-
+                //draws route and gets timer going
                 Routes busRoute = new Routes(busCoords,mapScreen,color);
                     updateMap(mapScreen);
-                    mainTimer.scheduleAtFixedRate(timerTask, 0, 30000);
+                    mainTimer.scheduleAtFixedRate(timerTask, 0, 30000); //every 30 seconds do timerTask
 
             }
         });
@@ -201,8 +193,6 @@ public class Buses {
     private  void updateMap(MapsActivity screen)
     {
 
-        System.out.println("worked");
-
         try {
 
             String fullString = "";
@@ -210,6 +200,8 @@ public class Buses {
             double longitude = 0;
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
             String line;
+
+            //retrieves the lines from the url and gets the latitude and longitude parts
             while ((line = reader.readLine()) != null) {
 
                 if (line.contains("<latitude>")) {
