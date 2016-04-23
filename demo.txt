@@ -1,0 +1,9 @@
+Demo:
+
+Show building info: Library, FSC, CIS
+
+Directions: CIS to Randall
+Bike Rack on/off
+Bus Route: Teal
+Dining: on/off, click one
+POI: TAC
