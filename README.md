@@ -1,5 +1,5 @@
 # Atlas-Prestige
-CSC450 Project
+Campus Quest
 
 [Application source code](../master/MyApplication/app/src/main/java/com/example/bryan/myapplication)
 
