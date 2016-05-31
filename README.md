@@ -3,10 +3,9 @@ Campus Quest
 
 [Application source code](../master/MyApplication/app/src/main/java/com/example/bryan/myapplication)
 
-[Initial Requirements Document](/blob/master/RequirementsFinal.docx)
+[Initial Requirements Document](../master/RequirementsFinal.docx)
 
-[Design Document](/blob/master/DesignDocument.docx)
+[Design Document](../master/DesignDocument.docx)
 
-[Final Implementation Document](/blob/master/FinalImplementation.docx)
+[Final Implementation Document](../master/FinalImplementation.docx)
 
-[test](blob/master/BryanBikeRacks.txt)
