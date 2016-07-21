@@ -1,5 +1,5 @@
 # Atlas-Prestige
-Campus Quest: an Android application guide to the UNCW campus with Google Maps implementation
+Campus Quest: an Android application guide to the UNCW campus with Google Maps integration
 
 [Application source code](../master/MyApplication/app/src/main/java/com/example/bryan/myapplication)
 
